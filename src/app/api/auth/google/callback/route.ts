@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { encrypt } from "@/lib/session";
 import { findOrCreateGoogleUser } from "@/app/actions/auth";
+import { getGoogleOAuthOrigin } from "@/lib/google-oauth-origin";
 
 const COOKIE_NAME = "cbb_session";
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
@@ -27,7 +28,8 @@ function errorRedirect(origin: string, message: string): NextResponse {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = request.nextUrl;
+  const origin = getGoogleOAuthOrigin(request);
+  const { searchParams } = request.nextUrl;
   const code = searchParams.get("code");
   const stateParam = searchParams.get("state");
   const oauthError = searchParams.get("error");

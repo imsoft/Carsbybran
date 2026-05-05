@@ -42,7 +42,7 @@ export async function sendContactMessage(
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { error } = await resend.emails.send({
       from: process.env.EMAIL_FROM!,
-      to: ["editorial@carsbybran.com"],
+      to: ["carsbybran@gmail.com"],
       replyTo: email,
       subject: `[Contacto] ${subject}`,
       html: `<p><strong>De:</strong> ${name} &lt;${email}&gt;</p><p><strong>Asunto:</strong> ${subject}</p><hr/><p>${message.replace(/\n/g, "<br/>")}</p>`,

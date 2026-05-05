@@ -38,7 +38,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]">) {
               <InfoRow
                 icon={<Mail className="h-4 w-4 text-accent" />}
                 label="Email"
-                value="editorial@carsbybran.com"
+                value="carsbybran@gmail.com"
               />
               <InfoRow
                 icon={<MapPin className="h-4 w-4 text-accent" />}

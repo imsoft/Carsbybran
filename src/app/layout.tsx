@@ -92,7 +92,7 @@ const organizationJsonLd = {
   sameAs: ["https://twitter.com/carsbybran"],
   contactPoint: {
     "@type": "ContactPoint",
-    email: "editorial@carsbybran.com",
+    email: "carsbybran@gmail.com",
     contactType: "editorial",
   },
 };

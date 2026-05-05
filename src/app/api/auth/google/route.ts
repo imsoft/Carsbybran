@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import crypto from "crypto";
+import { getGoogleOAuthOrigin } from "@/lib/google-oauth-origin";
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -11,7 +12,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const { searchParams, origin } = request.nextUrl;
+  const { searchParams } = request.nextUrl;
+  const origin = getGoogleOAuthOrigin(request);
   const from = searchParams.get("from") ?? "/";
 
   const csrf = crypto.randomBytes(16).toString("hex");

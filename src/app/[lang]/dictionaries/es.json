@@ -228,5 +228,148 @@
       "terms": "Términos de Servicio"
     },
     "copyright": "Todos los derechos reservados."
+  },
+  "legalDocs": {
+    "privacy": {
+      "title": "Aviso de Privacidad",
+      "description": "Cómo Carsbybran recopila, usa y protege tu información personal.",
+      "lastUpdated": "Última actualización: 4 de mayo de 2026",
+      "intro": "Este Aviso de Privacidad describe cómo Carsbybran (\"nosotros\") trata la información cuando usas nuestro sitio web y servicios relacionados. Al usar el sitio, aceptas este aviso.",
+      "sections": [
+        {
+          "heading": "Información que recopilamos",
+          "paragraphs": [
+            "Datos de cuenta: al registrarte o iniciar sesión (incluido con Google), podemos recopilar tu nombre, correo electrónico y un identificador único del proveedor de autenticación.",
+            "Contenido que proporcionas: comentarios, calificaciones, mensajes en formularios de contacto y otro contenido que envíes voluntariamente.",
+            "Datos técnicos: podemos recopilar dirección IP, tipo de navegador, información del dispositivo y datos similares mediante registros o analíticas para operar y mejorar el sitio.",
+            "Cookies y tecnologías similares: usamos cookies o almacenamiento local cuando es necesario para sesiones, preferencias o seguridad."
+          ]
+        },
+        {
+          "heading": "Cómo usamos tu información",
+          "paragraphs": [
+            "Para crear y administrar tu cuenta, autenticarte y ofrecer funciones como favoritos o reseñas de lectores.",
+            "Para responder a tus consultas y enviar comunicaciones transaccionales relacionadas con tu cuenta.",
+            "Para analizar el uso de forma agregada y mejorar el rendimiento, el contenido y la experiencia.",
+            "Para cumplir la ley aplicable y proteger la seguridad e integridad de nuestros servicios."
+          ]
+        },
+        {
+          "heading": "Servicios de terceros",
+          "paragraphs": [
+            "Utilizamos proveedores de confianza para alojamiento, envío de correo, autenticación (por ejemplo, Google Sign-In), analíticas e infraestructura. Esos proveedores tratan los datos según sus propios términos y políticas, solo en la medida necesaria para prestarnos el servicio.",
+            "Si usas Google para iniciar sesión, también aplica la política de privacidad de Google respecto a tu cuenta de Google."
+          ]
+        },
+        {
+          "heading": "Conservación de datos",
+          "paragraphs": [
+            "Conservamos la información solo el tiempo necesario para los fines descritos, salvo que la ley exija un plazo mayor. Puedes solicitar la eliminación de tu cuenta, sujeto a excepciones legales o legítimas."
+          ]
+        },
+        {
+          "heading": "Tus derechos",
+          "paragraphs": [
+            "Según tu lugar de residencia, puedes tener derechos de acceso, rectificación, cancelación u oposición al tratamiento. Escríbenos con los datos de contacto indicados. Podemos verificar tu identidad antes de responder."
+          ]
+        },
+        {
+          "heading": "Menores",
+          "paragraphs": [
+            "Nuestros servicios no están dirigidos a menores de 13 años (o la edad mínima que aplique en tu jurisdicción). No recopilamos a sabiendas datos personales de menores."
+          ]
+        },
+        {
+          "heading": "Usuarios internacionales",
+          "paragraphs": [
+            "Si accedes desde fuera del país donde operamos, tu información puede transferirse y tratarse en otros países con leyes de protección de datos distintas."
+          ]
+        },
+        {
+          "heading": "Cambios a este aviso",
+          "paragraphs": [
+            "Podemos actualizar este Aviso de Privacidad. Publicaremos la versión revisada en esta página y actualizaremos la fecha de \"Última actualización\". El uso continuado del sitio implica la aceptación del aviso actualizado."
+          ]
+        },
+        {
+          "heading": "Contacto",
+          "paragraphs": [
+            "Para preguntas de privacidad: carsbybran@gmail.com."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos y Condiciones",
+      "description": "Términos y condiciones de uso del sitio y servicios de Carsbybran.",
+      "lastUpdated": "Última actualización: 4 de mayo de 2026",
+      "intro": "Estos Términos y Condiciones (\"Términos\") rigen tu acceso y uso de Carsbybran y servicios relacionados. Al acceder o usar el sitio, aceptas estos Términos.",
+      "sections": [
+        {
+          "heading": "Uso del sitio",
+          "paragraphs": [
+            "Solo puedes usar el sitio con fines lícitos. Te comprometes a no hacer un uso indebido del sitio, intentar accesos no autorizados, interferir con la seguridad, extraer contenido en violación de estos Términos ni usar medios automatizados que dañen nuestra infraestructura o a los usuarios.",
+            "Podemos suspender o terminar el acceso si consideramos razonablemente que violaste estos Términos o la ley aplicable."
+          ]
+        },
+        {
+          "heading": "Cuentas",
+          "paragraphs": [
+            "Eres responsable de mantener la confidencialidad de tus credenciales y de la actividad bajo tu cuenta. Debes proporcionar información veraz al registrarte.",
+            "Podemos ofrecer inicio de sesión con terceros (p. ej. Google). Su uso también está sujeto a los términos de ese proveedor."
+          ]
+        },
+        {
+          "heading": "Contenido y propiedad intelectual",
+          "paragraphs": [
+            "El contenido editorial, marca, gráficos y otros materiales de Carsbybran están protegidos por derechos de autor y otras leyes, salvo indicación contraria. No puedes copiar, modificar, distribuir ni crear obras derivadas sin nuestro permiso previo por escrito, salvo lo permitido por la ley (p. ej. usos legítimos) o un uso personal no comercial claramente permitido en el sitio.",
+            "Cuando envías contenido (comentarios o reseñas de lectores), nos otorgas una licencia no exclusiva, mundial y libre de regalías para alojar, mostrar y distribuir ese contenido en relación con la operación y promoción del sitio. Declaras que tienes derecho a otorgar esa licencia."
+          ]
+        },
+        {
+          "heading": "Conducta del usuario",
+          "paragraphs": [
+            "No publiques contenido ilegal, acosador, difamatorio, obsceno, odioso o engañoso, ni que vulnere derechos de terceros. Podemos eliminar contenido o cuentas que infrinjan estas reglas."
+          ]
+        },
+        {
+          "heading": "Descargos de responsabilidad",
+          "paragraphs": [
+            "Las reseñas y opiniones son informativas. Condiciones de manejo, precios, especificaciones y normativas cambian; verifica siempre la información crítica con fabricantes, distribuidores o profesionales antes de comprar u operar un vehículo.",
+            "El sitio se ofrece \"tal cual\", sin garantías de ningún tipo, en la medida máxima permitida por la ley."
+          ]
+        },
+        {
+          "heading": "Limitación de responsabilidad",
+          "paragraphs": [
+            "En la medida máxima permitida por la ley, Carsbybran y su equipo no serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos, ni por pérdida de beneficios o datos, derivados del uso del sitio."
+          ]
+        },
+        {
+          "heading": "Enlaces a terceros",
+          "paragraphs": [
+            "El sitio puede enlazar a sitios o servicios de terceros. No somos responsables de su contenido, prácticas o políticas."
+          ]
+        },
+        {
+          "heading": "Cambios a los Términos",
+          "paragraphs": [
+            "Podemos modificar estos Términos en cualquier momento. Publicaremos la versión actualizada en esta página y la fecha de \"Última actualización\". El uso continuado implica la aceptación."
+          ]
+        },
+        {
+          "heading": "Legislación aplicable",
+          "paragraphs": [
+            "Estos Términos se rigen por las leyes que correspondan según tu lugar de residencia o las que designemos razonablemente para controversias, sin perjuicio de las protecciones imperativas al consumidor en tu país."
+          ]
+        },
+        {
+          "heading": "Contacto",
+          "paragraphs": [
+            "Preguntas sobre estos Términos: carsbybran@gmail.com."
+          ]
+        }
+      ]
+    }
   }
 }

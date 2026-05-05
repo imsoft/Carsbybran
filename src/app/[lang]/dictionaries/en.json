@@ -228,5 +228,148 @@
       "terms": "Terms of Service"
     },
     "copyright": "All rights reserved."
+  },
+  "legalDocs": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "How Carsbybran collects, uses, and protects your personal information.",
+      "lastUpdated": "Last updated: May 4, 2026",
+      "intro": "This Privacy Policy describes how Carsbybran (\"we\", \"us\", or \"our\") handles information when you use our website and related services. By using the site, you agree to this policy.",
+      "sections": [
+        {
+          "heading": "Information we collect",
+          "paragraphs": [
+            "Account information: When you register or sign in (including with Google), we may collect your name, email address, and a unique identifier from your authentication provider.",
+            "Content you provide: Comments, ratings, messages you send through contact forms, and other content you voluntarily submit.",
+            "Technical data: We may collect IP address, browser type, device information, and similar data through logs or analytics to operate and improve the site.",
+            "Cookies and similar technologies: We use cookies or local storage where needed for sessions, preferences, or security."
+          ]
+        },
+        {
+          "heading": "How we use your information",
+          "paragraphs": [
+            "To create and manage your account, authenticate you, and provide features such as saving favorites or posting reader reviews.",
+            "To respond to your inquiries and send transactional communications related to your account.",
+            "To analyze usage in aggregate to improve performance, content, and user experience.",
+            "To comply with applicable law and protect the security and integrity of our services."
+          ]
+        },
+        {
+          "heading": "Third-party services",
+          "paragraphs": [
+            "We use trusted providers for hosting, email delivery, authentication (such as Google Sign-In), analytics, and infrastructure. Those providers process data under their own terms and privacy policies, only as needed to perform services for us.",
+            "If you use Google to sign in, Google's privacy policy also applies to how Google handles your Google account data."
+          ]
+        },
+        {
+          "heading": "Data retention",
+          "paragraphs": [
+            "We retain information only as long as necessary for the purposes described above, unless a longer period is required by law. You may request deletion of your account subject to legal or legitimate business exceptions."
+          ]
+        },
+        {
+          "heading": "Your rights",
+          "paragraphs": [
+            "Depending on where you live, you may have rights to access, correct, delete, or restrict certain processing of your personal data. Contact us using the details below to make a request. We may need to verify your identity before responding."
+          ]
+        },
+        {
+          "heading": "Children",
+          "paragraphs": [
+            "Our services are not directed at children under 13 (or the minimum age required in your jurisdiction). We do not knowingly collect personal information from children."
+          ]
+        },
+        {
+          "heading": "International users",
+          "paragraphs": [
+            "If you access the site from outside the country where we operate, your information may be transferred to and processed in other countries where data protection laws may differ."
+          ]
+        },
+        {
+          "heading": "Changes to this policy",
+          "paragraphs": [
+            "We may update this Privacy Policy from time to time. We will post the revised version on this page and update the \"Last updated\" date. Continued use of the site after changes constitutes acceptance of the updated policy."
+          ]
+        },
+        {
+          "heading": "Contact",
+          "paragraphs": [
+            "For privacy-related questions, contact us at carsbybran@gmail.com."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "description": "Terms and conditions for using the Carsbybran website and services.",
+      "lastUpdated": "Last updated: May 4, 2026",
+      "intro": "These Terms of Service (\"Terms\") govern your access to and use of Carsbybran and related services. By accessing or using the site, you agree to these Terms.",
+      "sections": [
+        {
+          "heading": "Use of the site",
+          "paragraphs": [
+            "You may use the site for lawful purposes only. You agree not to misuse the site, attempt unauthorized access, interfere with security, scrape content in violation of these Terms, or use automated means in a way that harms our infrastructure or users.",
+            "We may suspend or terminate access if we reasonably believe you have violated these Terms or applicable law."
+          ]
+        },
+        {
+          "heading": "Accounts",
+          "paragraphs": [
+            "You are responsible for maintaining the confidentiality of your account credentials and for activity under your account. You must provide accurate information when registering.",
+            "We may offer sign-in through third parties (e.g. Google). Your use of those services is also subject to the provider's terms."
+          ]
+        },
+        {
+          "heading": "Content and intellectual property",
+          "paragraphs": [
+            "Editorial content, branding, graphics, and other materials on Carsbybran are protected by copyright and other intellectual property laws unless otherwise noted. You may not copy, modify, distribute, or create derivative works without our prior written permission, except as allowed by law (e.g. fair use) or for personal, non-commercial use clearly permitted on the site.",
+            "When you submit content (such as comments or reader reviews), you grant us a non-exclusive, worldwide, royalty-free license to host, display, and distribute that content in connection with operating and promoting the site. You represent that you have the rights to grant this license."
+          ]
+        },
+        {
+          "heading": "User conduct",
+          "paragraphs": [
+            "You agree not to post unlawful, harassing, defamatory, obscene, hateful, or misleading content, or content that infringes others' rights. We may remove content or accounts that violate these rules."
+          ]
+        },
+        {
+          "heading": "Disclaimers",
+          "paragraphs": [
+            "Automotive reviews and opinions are for informational purposes. Driving conditions, prices, specifications, and regulations change; always verify critical information with manufacturers, dealers, or qualified professionals before purchasing or operating a vehicle.",
+            "The site is provided \"as is\" without warranties of any kind, to the fullest extent permitted by law."
+          ]
+        },
+        {
+          "heading": "Limitation of liability",
+          "paragraphs": [
+            "To the maximum extent permitted by law, Carsbybran and its team will not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or data, arising from your use of the site."
+          ]
+        },
+        {
+          "heading": "Links to third parties",
+          "paragraphs": [
+            "The site may link to third-party websites or services. We are not responsible for their content, practices, or policies."
+          ]
+        },
+        {
+          "heading": "Changes to the Terms",
+          "paragraphs": [
+            "We may modify these Terms at any time. We will post the updated Terms on this page and update the \"Last updated\" date. Your continued use after changes constitutes acceptance."
+          ]
+        },
+        {
+          "heading": "Governing law",
+          "paragraphs": [
+            "These Terms are governed by the laws applicable in your primary place of business or residence as we reasonably designate for disputes, without regard to conflict-of-law rules, except where mandatory consumer protections apply in your country."
+          ]
+        },
+        {
+          "heading": "Contact",
+          "paragraphs": [
+            "Questions about these Terms: carsbybran@gmail.com."
+          ]
+        }
+      ]
+    }
   }
 }
