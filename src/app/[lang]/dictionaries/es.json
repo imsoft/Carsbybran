@@ -7,7 +7,6 @@
     "reviews": "Reseñas",
     "brands": "Marcas",
     "comparisons": "Comparativas",
-    "about": "Nosotros",
     "contact": "Contacto",
     "search": "Buscar reseñas...",
     "openMenu": "Abrir menú",
@@ -81,13 +80,6 @@
       "readTime": "Tiempo de lectura",
       "minRead": "min"
     }
-  },
-  "about": {
-    "eyebrow": "Sobre Carsbybran",
-    "title": "Manejo real. Opiniones honestas.",
-    "subtitle": "No aceptamos préstamos de fabricantes. Cada vehículo que probamos lo compramos o rentamos, así nuestras opiniones nunca están en venta.",
-    "missionTitle": "Nuestra Misión",
-    "mission": "Carsbybran nació de una creencia simple: los conductores merecen periodismo automotriz honesto e independiente. Sin contenido patrocinado, sin incentivos de fabricantes. Solo pruebas rigurosas y opiniones directas de personas que genuinamente aman los autos."
   },
   "contact": {
     "title": "Contáctanos",
@@ -221,7 +213,6 @@
     "sections": {
       "reviews": "Reseñas",
       "brands": "Marcas",
-      "about": "Nosotros",
       "contact": "Contacto"
     },
     "legal": {

@@ -13,7 +13,6 @@ interface NavbarProps {
     reviews: string;
     brands: string;
     comparisons: string;
-    about: string;
     contact: string;
     search: string;
     login: string;
@@ -34,7 +33,6 @@ export async function Navbar({ lang, dict }: NavbarProps) {
     { href: `/${lang}/reviews`, label: dict.reviews },
     { href: `/${lang}/brands`, label: dict.brands },
     { href: `/${lang}/comparisons`, label: dict.comparisons },
-    { href: `/${lang}/about`, label: dict.about },
     { href: `/${lang}/contact`, label: dict.contact },
   ];
 

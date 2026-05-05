@@ -8,7 +8,6 @@ interface FooterProps {
     sections: {
       reviews: string;
       brands: string;
-      about: string;
       contact: string;
     };
     legal: {
@@ -23,7 +22,6 @@ export function Footer({ lang, dict }: FooterProps) {
   const sectionLinks = [
     { label: dict.sections.reviews, href: `/${lang}/reviews` },
     { label: dict.sections.brands, href: `/${lang}/brands` },
-    { label: dict.sections.about, href: `/${lang}/about` },
     { label: dict.sections.contact, href: `/${lang}/contact` },
   ];
 

@@ -7,7 +7,6 @@
     "reviews": "Reviews",
     "brands": "Brands",
     "comparisons": "Comparisons",
-    "about": "About",
     "contact": "Contact",
     "search": "Search reviews...",
     "openMenu": "Open menu",
@@ -81,13 +80,6 @@
       "readTime": "Read time",
       "minRead": "min"
     }
-  },
-  "about": {
-    "eyebrow": "About Carsbybran",
-    "title": "Real drives. Honest opinions.",
-    "subtitle": "We don't accept manufacturer loans. Every vehicle we test is bought or rented — so our opinions are never for sale.",
-    "missionTitle": "Our Mission",
-    "mission": "Carsbybran was founded on a simple belief: drivers deserve honest, independent automotive journalism. No sponsored content, no manufacturer incentives. Just rigorous testing and straight talk from people who genuinely love cars."
   },
   "contact": {
     "title": "Contact Us",
@@ -221,7 +213,6 @@
     "sections": {
       "reviews": "Reviews",
       "brands": "Brands",
-      "about": "About Us",
       "contact": "Contact"
     },
     "legal": {
