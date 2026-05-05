@@ -80,92 +80,8 @@ export function ArticleEditor({ article, action }: Props) {
         </p>
       )}
 
-      {/* ── Top bar ── */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex-1 min-w-40 space-y-1.5">
-          <Label htmlFor="slug">Slug (URL)</Label>
-          <Input
-            id="slug" name="slug" value={slug}
-            onChange={(e) => { setSlug(e.target.value); setSlugManual(true); }}
-            placeholder="auto-generado-desde-titulo"
-            className="font-mono text-sm"
-          />
-          {!slugManual && titleEs && (
-            <p className="text-[11px] text-muted-foreground">Auto-generado desde el título ES</p>
-          )}
-          {state.errors?.slug && <p className="text-xs text-destructive">{state.errors.slug[0]}</p>}
-        </div>
-
-        <div className="w-40 space-y-1.5">
-          <Label htmlFor="category">Categoría</Label>
-          <Select name="category" defaultValue={article?.category ?? "reviews"}>
-            <SelectTrigger id="category"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              {CATEGORIES.map((c) => (
-                <SelectItem key={c} value={c} className="capitalize">{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="w-36 space-y-1.5">
-          <Label htmlFor="status">Estado</Label>
-          <Select name="status" defaultValue={article?.status ?? "draft"}>
-            <SelectTrigger id="status"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="draft">Borrador</SelectItem>
-              <SelectItem value="published">Publicado</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="flex items-center gap-2 ml-auto">
-          {saveStatus === "saved" && (
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Cloud className="size-3" />Guardado localmente
-            </span>
-          )}
-          {saveStatus === "unsaved" && (
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <CloudOff className="size-3" />Sin guardar
-            </span>
-          )}
-          <Button type="button" variant="outline" size="sm" onClick={saveToStorage}>
-            Guardar borrador
-          </Button>
-          {article && (
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/preview/${article.id}`} target="_blank">
-                <Eye className="size-3.5 mr-1" />Preview
-              </Link>
-            </Button>
-          )}
-          <Button type="submit" size="sm" disabled={pending}>
-            <Save className="size-3.5 mr-1" />
-            {pending ? "Guardando…" : "Publicar"}
-          </Button>
-        </div>
-      </div>
-
-      {/* Cover image */}
-      <div className="space-y-1.5">
-        <Label>Imagen de portada</Label>
-        <ImageUploader name="coverImage" defaultPreview={article?.coverImage || undefined} />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="tags">Tags (separados por coma)</Label>
-        <Input
-          id="tags" name="tags"
-          placeholder="toyota, gr86, sports-car"
-          defaultValue={article?.tags?.join(", ")}
-        />
-      </div>
-
-      <Separator />
-
-      {/* ── Main editor tabs ── */}
-      <Tabs defaultValue="content-es">
+      {/* ── Main editor tabs (first: contenido y bloques del artículo) ── */}
+      <Tabs defaultValue="content-es" className="scroll-mt-4">
         <TabsList className="flex-wrap h-auto gap-1 p-1">
           <TabsTrigger value="content-es">🇲🇽 Contenido ES</TabsTrigger>
           <TabsTrigger value="content-en">🇺🇸 Content EN</TabsTrigger>
@@ -254,6 +170,90 @@ export function ArticleEditor({ article, action }: Props) {
           <VideoForm defaultValue={article?.videoUrl} />
         </TabsContent>
       </Tabs>
+
+      <Separator />
+
+      {/* ── Publicación: URL, categoría, portada y acciones ── */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex-1 min-w-40 space-y-1.5">
+          <Label htmlFor="slug">Slug (URL)</Label>
+          <Input
+            id="slug" name="slug" value={slug}
+            onChange={(e) => { setSlug(e.target.value); setSlugManual(true); }}
+            placeholder="auto-generado-desde-titulo"
+            className="font-mono text-sm"
+          />
+          {!slugManual && titleEs && (
+            <p className="text-[11px] text-muted-foreground">Auto-generado desde el título ES</p>
+          )}
+          {state.errors?.slug && <p className="text-xs text-destructive">{state.errors.slug[0]}</p>}
+        </div>
+
+        <div className="min-w-0 flex-1 basis-[min(100%,12rem)] space-y-1.5">
+          <Label htmlFor="category">Categoría</Label>
+          <Select name="category" defaultValue={article?.category ?? "reviews"}>
+            <SelectTrigger id="category"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map((c) => (
+                <SelectItem key={c} value={c} className="capitalize">{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="min-w-0 flex-1 basis-[min(100%,11rem)] space-y-1.5">
+          <Label htmlFor="status">Estado</Label>
+          <Select name="status" defaultValue={article?.status ?? "draft"}>
+            <SelectTrigger id="status"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="draft">Borrador</SelectItem>
+              <SelectItem value="published">Publicado</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-2 ml-auto">
+          {saveStatus === "saved" && (
+            <span className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Cloud className="size-3" />Guardado localmente
+            </span>
+          )}
+          {saveStatus === "unsaved" && (
+            <span className="flex items-center gap-1 text-xs text-muted-foreground">
+              <CloudOff className="size-3" />Sin guardar
+            </span>
+          )}
+          <Button type="button" variant="outline" size="sm" onClick={saveToStorage}>
+            Guardar borrador
+          </Button>
+          {article && (
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/preview/${article.id}`} target="_blank">
+                <Eye className="size-3.5 mr-1" />Preview
+              </Link>
+            </Button>
+          )}
+          <Button type="submit" size="sm" disabled={pending}>
+            <Save className="size-3.5 mr-1" />
+            {pending ? "Guardando…" : "Publicar"}
+          </Button>
+        </div>
+      </div>
+
+      {/* Cover image */}
+      <div className="space-y-1.5">
+        <Label>Imagen de portada</Label>
+        <ImageUploader name="coverImage" defaultPreview={article?.coverImage || undefined} />
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="tags">Tags (separados por coma)</Label>
+        <Input
+          id="tags" name="tags"
+          placeholder="toyota, gr86, sports-car"
+          defaultValue={article?.tags?.join(", ")}
+        />
+      </div>
     </form>
   );
 }

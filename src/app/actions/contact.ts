@@ -2,6 +2,10 @@
 
 import { z } from "zod/v4";
 import { Resend } from "resend";
+import {
+  buildContactNotificationHtml,
+  buildContactNotificationText,
+} from "@/lib/email/contact-notification-html";
 
 const ContactSchema = z.object({
   name: z.string().min(2, { error: "Nombre requerido." }).trim(),
@@ -40,12 +44,14 @@ export async function sendContactMessage(
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
+    const payload = { name, email, subject, message };
     const { error } = await resend.emails.send({
       from: process.env.EMAIL_FROM!,
       to: ["carsbybran@gmail.com"],
       replyTo: email,
       subject: `[Contacto] ${subject}`,
-      html: `<p><strong>De:</strong> ${name} &lt;${email}&gt;</p><p><strong>Asunto:</strong> ${subject}</p><hr/><p>${message.replace(/\n/g, "<br/>")}</p>`,
+      html: buildContactNotificationHtml(payload),
+      text: buildContactNotificationText(payload),
     });
     if (error) return { status: "error" };
   } catch {

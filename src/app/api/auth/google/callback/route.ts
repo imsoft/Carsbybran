@@ -117,9 +117,14 @@ export async function GET(request: NextRequest) {
     expiresAt,
   });
 
-  const redirectTo = stateData.from && stateData.from.startsWith("/")
-    ? stateData.from
-    : user.role === "admin" ? "/dashboard" : "/";
+  const redirectTo =
+    user.role === "admin"
+      ? "/dashboard"
+      : stateData.from &&
+          stateData.from.startsWith("/") &&
+          stateData.from !== "/"
+        ? stateData.from
+        : "/";
 
   const response = NextResponse.redirect(new URL(redirectTo, origin));
 
