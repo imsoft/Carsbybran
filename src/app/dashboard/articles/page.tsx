@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { getArticles } from "@/lib/mock-articles";
-import { toggleArticleStatus, deleteArticle } from "@/app/actions/articles";
+import { toggleArticleStatus } from "@/app/actions/articles";
+import { DeleteArticleButton } from "@/components/admin/DeleteArticleButton";
 
 export default async function ArticlesPage() {
   const articles = await getArticles();
@@ -104,6 +105,7 @@ export default async function ArticlesPage() {
                           {article.status === "published" ? "Despublicar" : "Publicar"}
                         </Button>
                       </form>
+                      <DeleteArticleButton articleId={article.id} />
                     </div>
                   </TableCell>
                 </TableRow>

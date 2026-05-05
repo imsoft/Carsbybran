@@ -23,7 +23,15 @@
       "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/brands/\\\\[slug\\\\])",
       "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/search)",
       "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/reviews/\\\\[slug\\\\])",
-      "Bash(pnpm drizzle-kit *)"
+      "Bash(pnpm drizzle-kit *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran status)",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran log --oneline -3)",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran add next.config.ts package.json pnpm-lock.yaml 'src/app/[lang]/brands/[slug]/page.tsx' 'src/app/[lang]/brands/page.tsx' 'src/app/[lang]/comparisons/page.tsx' 'src/app/[lang]/page.tsx' 'src/app/[lang]/profile/page.tsx' 'src/app/[lang]/reviews/page.tsx' src/app/actions/auth.ts src/app/actions/user.ts src/app/api/auth/google/callback/route.ts src/app/api/seed/route.ts src/components/admin/editor/ArticleEditor.tsx src/components/comparisons/CarComparisonTool.tsx src/components/comparisons/ComparisonCard.tsx src/components/home/BrandFilter.tsx src/components/home/Hero.tsx src/components/home/ReviewCard.tsx src/components/home/ReviewGrid.tsx src/components/home/Sidebar.tsx src/components/layout/NavbarAuthSection.tsx src/components/reviews/ReviewFilters.tsx src/lib/db/schema.ts src/lib/definitions.ts src/lib/mock-articles.ts src/lib/mock-data.ts src/components/profile/ src/lib/articles.ts)",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran commit -m ' *)",
+      "Bash(pnpm remove *)",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran add package.json pnpm-lock.yaml next.config.ts src/lib/r2.ts src/app/actions/user.ts src/app/actions/articles.ts)",
+      "Bash(git -C /Users/brangarciaramos/Proyectos/carsbybran/carsbybran push origin main)"
     ],
     "additionalDirectories": [
       "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]",
