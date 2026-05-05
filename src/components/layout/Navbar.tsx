@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Car } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 import { LangSwitcher } from "./LangSwitcher";
 import { NavbarAuthSection } from "./NavbarAuthSection";
 import { NavbarSearch } from "./NavbarSearch";
@@ -41,13 +41,12 @@ export async function Navbar({ lang, dict }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm">
       <nav className="container mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 md:px-8">
-        {/* Logo */}
-        <Link href={`/${lang}`} className="flex shrink-0 items-center gap-2 mr-2">
-          <Car className="h-6 w-6 text-accent" aria-hidden="true" />
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            Carsby<span className="text-accent">bran</span>
-          </span>
-        </Link>
+        <SiteLogo
+          href={`/${lang}`}
+          priority
+          className="mr-2"
+          imageClassName="h-8 w-auto md:h-9"
+        />
 
         {/* Desktop nav links */}
         <ul className="hidden lg:flex items-center gap-0.5">

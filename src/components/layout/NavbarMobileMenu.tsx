@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Car, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -39,16 +40,11 @@ export function NavbarMobileMenu({ lang, navLinks, ariaLabel }: Props) {
       <SheetContent side="left" className="w-72 p-0">
         <SheetHeader className="border-b border-border px-5 py-4">
           <SheetTitle asChild>
-            <Link
+            <SiteLogo
               href={`/${lang}`}
-              className="flex items-center gap-2"
               onClick={() => setOpen(false)}
-            >
-              <Car className="h-5 w-5 text-accent" aria-hidden="true" />
-              <span className="text-base font-bold tracking-tight text-foreground">
-                Carsby<span className="text-accent">bran</span>
-              </span>
-            </Link>
+              imageClassName="h-7 w-auto"
+            />
           </SheetTitle>
         </SheetHeader>
 

@@ -28,7 +28,7 @@ export function ReviewCard({ review, lang, dict, className }: ReviewCardProps) {
       )}
     >
       {/* Thumbnail */}
-      <div className="relative aspect-[16/9] overflow-hidden">
+      <div className="relative aspect-video overflow-hidden">
         <Image
           src={review.coverImage}
           alt={review.title}

@@ -59,7 +59,7 @@ function CarColumn({
       )}
 
       {/* Cover image */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden">
+      <div className="relative aspect-video w-full overflow-hidden">
         <Image
           src={review.coverImage}
           alt={review.title}

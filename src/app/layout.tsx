@@ -88,7 +88,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "Carsbybran",
   url: BASE_URL,
-  logo: `${BASE_URL}/logo.png`,
+  logo: `${BASE_URL}/images/site/carsbybran-logo-light.svg`,
   sameAs: ["https://twitter.com/carsbybran"],
   contactPoint: {
     "@type": "ContactPoint",

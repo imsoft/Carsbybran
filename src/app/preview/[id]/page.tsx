@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Geist } from "next/font/google";
-import { ArrowLeft, Pencil, Car } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 import { ArticlePreview } from "@/components/admin/editor/ArticlePreview";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -84,12 +85,7 @@ export default async function ArticlePreviewPage({ params }: Props) {
             {/* Public blog Navbar (replica) */}
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
               <nav className="container mx-auto flex h-16 max-w-4xl items-center gap-4 px-4">
-                <Link href="/" className="flex items-center gap-2 mr-2">
-                  <Car className="h-6 w-6 text-accent" />
-                  <span className="text-lg font-bold tracking-tight">
-                    Carsby<span className="text-accent">bran</span>
-                  </span>
-                </Link>
+                <SiteLogo href="/" className="mr-2" imageClassName="h-8 w-auto" />
                 <ul className="hidden md:flex items-center gap-0.5 text-sm text-muted-foreground">
                   {["Reviews", "Marcas", "Comparaciones"].map((l) => (
                     <li key={l}>

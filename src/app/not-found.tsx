@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Car, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
-import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center bg-background text-foreground px-4">
       <div className="text-center space-y-6 max-w-md">
-        <Link href="/" className="inline-flex items-center gap-2 text-lg font-bold">
-          <Car className="size-6 text-accent" />
-          Carsby<span className="text-accent">bran</span>
-        </Link>
+        <div className="flex justify-center">
+          <SiteLogo href="/" imageClassName="h-9 w-auto" />
+        </div>
 
         <div className="space-y-2">
           <p className="text-8xl font-bold tabular-nums text-muted-foreground/20">404</p>

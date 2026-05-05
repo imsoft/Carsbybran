@@ -8,9 +8,9 @@ import {
   Settings,
   ExternalLink,
   ChevronRight,
-  Car,
   Menu,
 } from "lucide-react";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -76,10 +76,9 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 function SidebarBrand() {
   return (
-    <div className="h-14 flex items-center px-4 gap-2 border-b shrink-0">
-      <Car className="size-5 text-accent" />
-      <span className="font-semibold text-sm tracking-tight">Carsbybran</span>
-      <span className="ml-auto text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+    <div className="h-14 flex items-center px-3 gap-2 border-b shrink-0">
+      <SiteLogo href="/" imageClassName="h-7 w-auto max-w-[min(140px,55vw)]" className="min-w-0 flex-1" />
+      <span className="shrink-0 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
         Admin
       </span>
     </div>

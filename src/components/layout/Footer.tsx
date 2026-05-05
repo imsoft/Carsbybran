@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Car } from "lucide-react";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 
 interface FooterProps {
   lang: string;
@@ -33,15 +33,11 @@ export function Footer({ lang, dict }: FooterProps) {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand + tagline */}
           <div className="lg:col-span-2">
-            <Link
+            <SiteLogo
               href={`/${lang}`}
-              className="inline-flex items-center gap-2 mb-3"
-            >
-              <Car className="h-5 w-5 text-accent" aria-hidden="true" />
-              <span className="font-bold text-foreground">
-                Carsby<span className="text-accent">bran</span>
-              </span>
-            </Link>
+              className="mb-3"
+              imageClassName="h-7 w-auto"
+            />
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
               {dict.tagline}
             </p>
