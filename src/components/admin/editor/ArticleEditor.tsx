@@ -240,12 +240,6 @@ export function ArticleEditor({ article, action }: Props) {
         </div>
       </div>
 
-      {/* Cover image */}
-      <div className="space-y-1.5">
-        <Label>Imagen de portada</Label>
-        <ImageUploader name="coverImage" defaultPreview={article?.coverImage || undefined} />
-      </div>
-
       <div className="space-y-1.5">
         <Label htmlFor="tags">Tags (separados por coma)</Label>
         <Input
@@ -253,6 +247,12 @@ export function ArticleEditor({ article, action }: Props) {
           placeholder="toyota, gr86, sports-car"
           defaultValue={article?.tags?.join(", ")}
         />
+      </div>
+
+      {/* Cover image */}
+      <div className="space-y-1.5">
+        <Label>Imagen de portada</Label>
+        <ImageUploader name="coverImage" defaultPreview={article?.coverImage || undefined} />
       </div>
     </form>
   );
