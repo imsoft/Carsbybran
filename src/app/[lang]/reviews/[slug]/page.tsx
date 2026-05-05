@@ -65,14 +65,14 @@ export default async function ArticlePage({ params }: Props) {
       <main className="flex-1">
         {/* ── Hero cover ── */}
         {article.coverImage && (
-          <div className="relative w-full aspect-[21/9] max-h-[480px] overflow-hidden bg-muted">
+          <div className="relative w-full aspect-21/9 max-h-[480px] overflow-hidden bg-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={article.coverImage}
               alt={title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
           </div>
         )}
 

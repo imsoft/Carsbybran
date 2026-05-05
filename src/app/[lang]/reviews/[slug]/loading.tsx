@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div className="flex-1 animate-pulse">
-      <div className="w-full aspect-[21/9] max-h-[480px] bg-muted" />
+      <div className="w-full aspect-21/9 max-h-[480px] bg-muted" />
       <div className="container mx-auto max-w-7xl px-4 md:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
           <div className="space-y-6">
