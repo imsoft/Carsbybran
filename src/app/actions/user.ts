@@ -63,13 +63,15 @@ export async function updateAvatarAction(formData: FormData) {
   const file = formData.get("avatar") as File | null;
   if (!file || file.size === 0) return;
 
-  const { put } = await import("@vercel/blob");
+  const { uploadToR2 } = await import("@/lib/r2");
   const ext = file.name.split(".").pop() ?? "jpg";
-  const blob = await put(`avatars/${session.userId}.${ext}`, file, {
-    access: "public",
-  });
+  const url = await uploadToR2(
+    `avatars/${session.userId}.${ext}`,
+    await file.arrayBuffer(),
+    file.type || "image/jpeg"
+  );
 
-  await db.update(users).set({ avatarUrl: blob.url }).where(eq(users.id, session.userId));
-  await createSession({ userId: session.userId, email: session.email, name: session.name, role: session.role, avatarUrl: blob.url });
+  await db.update(users).set({ avatarUrl: url }).where(eq(users.id, session.userId));
+  await createSession({ userId: session.userId, email: session.email, name: session.name, role: session.role, avatarUrl: url });
   revalidatePath("/");
 }
