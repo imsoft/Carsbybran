@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { ReviewCard } from "./ReviewCard";
 import { AdSlot } from "@/components/ads/AdSlot";
-import type { Review } from "@/lib/mock-data";
+import type { Review } from "@/lib/articles";
 
 interface ReviewGridProps {
   reviews: Review[];

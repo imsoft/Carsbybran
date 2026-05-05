@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { logout } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,6 +51,11 @@ export function NavbarAuthSection({ session, lang, dict }: Props) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full size-9">
           <Avatar className="size-8">
+            {session.avatarUrl && (
+              <AvatarImage src={session.avatarUrl} alt={session.name} asChild>
+                <Image src={session.avatarUrl} alt={session.name} width={32} height={32} className="rounded-full object-cover" />
+              </AvatarImage>
+            )}
             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
               {initials}
             </AvatarFallback>

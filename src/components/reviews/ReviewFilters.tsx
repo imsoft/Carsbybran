@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ReviewCard } from "@/components/home/ReviewCard";
-import type { Review } from "@/lib/mock-data";
+import type { Review } from "@/lib/articles";
 
 interface ReviewFiltersProps {
   reviews: Review[];

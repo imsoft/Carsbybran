@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Star, Clock, ChevronRight } from "lucide-react";
-import type { Review } from "@/lib/mock-data";
+import type { Review } from "@/lib/articles";
 
 interface HeroProps {
   review: Review;

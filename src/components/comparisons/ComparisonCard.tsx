@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Trophy, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Comparison } from "@/lib/mock-data";
+import type { Comparison } from "@/lib/articles";
 
 interface ComparisonCardProps {
   comparison: Comparison;

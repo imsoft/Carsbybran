@@ -53,6 +53,7 @@ export async function login(
     email: user.email,
     name: user.name,
     role,
+    avatarUrl: user.avatarUrl ?? undefined,
   });
 
   redirect(role === "admin" ? "/dashboard" : "/");
@@ -94,7 +95,7 @@ export async function register(
 
   await db.insert(users).values({ id, name, email, passwordHash, role });
 
-  await createSession({ userId: id, email, name, role });
+  await createSession({ userId: id, email, name, role, avatarUrl: undefined });
   redirect(role === "admin" ? "/dashboard" : "/");
 }
 

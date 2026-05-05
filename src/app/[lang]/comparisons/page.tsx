@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CarComparisonTool } from "@/components/comparisons/CarComparisonTool";
-import { allReviews } from "@/lib/mock-data";
+import { getAllPublishedArticles } from "@/lib/articles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -20,7 +20,10 @@ export default async function ComparisonsPage({
 }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, cars] = await Promise.all([
+    getDictionary(lang),
+    getAllPublishedArticles(lang),
+  ]);
 
   return (
     <>
@@ -35,7 +38,7 @@ export default async function ComparisonsPage({
           </p>
         </div>
         <CarComparisonTool
-          cars={allReviews}
+          cars={cars}
           lang={lang}
           dict={dict.comparisons}
         />

@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BrandFilter } from "@/components/home/BrandFilter";
-import { brands } from "@/lib/mock-data";
+import { getBrands } from "@/lib/articles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
 export default async function BrandsPage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, brands] = await Promise.all([getDictionary(lang), getBrands()]);
 
   return (
     <>

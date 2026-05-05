@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Review } from "@/lib/mock-data";
+import type { Review } from "@/lib/articles";
 import { CardFavoriteButton } from "@/components/reviews/CardFavoriteButton";
 
 interface ReviewCardProps {

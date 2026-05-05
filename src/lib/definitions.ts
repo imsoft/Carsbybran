@@ -148,5 +148,6 @@ export type SessionPayload = {
   email: string;
   name: string;
   role: UserRole;
+  avatarUrl?: string;
   expiresAt: Date;
 };

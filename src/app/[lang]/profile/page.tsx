@@ -6,6 +6,7 @@ import { getDictionary, hasLocale } from "../dictionaries";
 import { getSession } from "@/lib/session";
 import { getUserStats } from "@/lib/mock-user-data";
 import { Card, CardContent } from "@/components/ui/card";
+import { AvatarUpload } from "@/components/profile/AvatarUpload";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Star, MessageCircle, CalendarDays } from "lucide-react";
@@ -48,9 +49,10 @@ export default async function ProfilePage({ params }: PageProps<"/[lang]/profile
         <Card>
           <CardContent className="pt-6 pb-6">
             <div className="flex items-center gap-5">
-              <div className="size-16 rounded-full bg-primary flex items-center justify-center text-2xl font-bold text-primary-foreground shrink-0">
-                {session?.name?.slice(0, 2).toUpperCase() ?? "??"}
-              </div>
+              <AvatarUpload
+                name={session?.name ?? "??"}
+                avatarUrl={session?.avatarUrl}
+              />
               <div className="flex-1 min-w-0">
                 <h1 className="text-xl font-bold truncate">{session?.name}</h1>
                 <p className="text-sm text-muted-foreground truncate">{session?.email}</p>

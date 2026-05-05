@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ReviewFilters } from "@/components/reviews/ReviewFilters";
-import { allReviews } from "@/lib/mock-data";
+import { getAllPublishedArticles } from "@/lib/articles";
 import { getSession } from "@/lib/session";
 import { getFavorites } from "@/lib/mock-user-data";
 import { getArticleById } from "@/lib/mock-articles";
@@ -25,13 +25,21 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
 export default async function ReviewsPage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
+
   const dict = await getDictionary(lang);
   const session = await getSession();
-  const favoriteIds = session ? await getFavorites(session.userId) : [];
-  const favoriteArticles = await Promise.all(favoriteIds.map((id) => getArticleById(id)));
+
+  const [allReviews, favoriteIds] = await Promise.all([
+    getAllPublishedArticles(lang),
+    session ? getFavorites(session.userId) : Promise.resolve([]),
+  ]);
+
+  const favoriteArticles = await Promise.all(
+    favoriteIds.map((id) => getArticleById(id))
+  );
   const favoriteSlugs = favoriteArticles
-    .filter((article): article is NonNullable<typeof article> => Boolean(article))
-    .map((article) => article.slug);
+    .filter((a): a is NonNullable<typeof a> => Boolean(a))
+    .map((a) => a.slug);
 
   return (
     <>

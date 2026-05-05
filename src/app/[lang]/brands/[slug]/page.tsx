@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { getDictionary, hasLocale } from "../../dictionaries";
 import { getArticles } from "@/lib/mock-articles";
-import { brands } from "@/lib/mock-data";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
@@ -14,13 +13,17 @@ import { pageMeta } from "@/lib/seo";
 
 type Props = PageProps<"/[lang]/brands/[slug]">;
 
+function slugToTitle(slug: string): string {
+  const overrides: Record<string, string> = { bmw: "BMW", gmc: "GMC", vw: "VW", kia: "KIA" };
+  return overrides[slug.toLowerCase()] ?? slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!hasLocale(lang)) return {};
-  const brand = brands.find((b) => b.slug === slug);
-  if (!brand) return { title: "Not found" };
   const dict = await getDictionary(lang);
-  const title = `${brand.name} ${dict.brands.reviewPlural} — Carsbybran`;
+  const brandName = slugToTitle(slug);
+  const title = `${brandName} ${dict.brands.reviewPlural} — Carsbybran`;
   return {
     title,
     ...pageMeta(lang, `/brands/${slug}`, title, dict.meta.description),
@@ -31,9 +34,6 @@ export default async function BrandPage({ params }: Props) {
   const { lang, slug } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const brand = brands.find((b) => b.slug === slug);
-  if (!brand) notFound();
-
   const dict = await getDictionary(lang);
   const isEs = lang === "es-MX";
 
@@ -41,6 +41,7 @@ export default async function BrandPage({ params }: Props) {
     (a) => a.status === "published" && a.tags.includes(slug)
   );
 
+  const brandName = slugToTitle(slug);
   const reviewCount =
     articles.length === 1 ? dict.brands.reviewSingular : dict.brands.reviewPlural;
 
@@ -58,7 +59,7 @@ export default async function BrandPage({ params }: Props) {
           </Button>
 
           <div>
-            <h1 className="text-3xl font-bold">{brand.name}</h1>
+            <h1 className="text-3xl font-bold">{brandName}</h1>
             <p className="text-sm text-muted-foreground mt-1">
               {articles.length} {reviewCount}
             </p>

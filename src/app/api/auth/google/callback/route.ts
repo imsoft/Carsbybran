@@ -113,6 +113,7 @@ export async function GET(request: NextRequest) {
     email: user.email,
     name: user.name,
     role: user.role as import("@/lib/definitions").UserRole,
+    avatarUrl: (user as { avatarUrl?: string | null }).avatarUrl ?? undefined,
     expiresAt,
   });
 

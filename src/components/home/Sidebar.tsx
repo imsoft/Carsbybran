@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { AdSlot } from "@/components/ads/AdSlot";
-import type { Review } from "@/lib/mock-data";
+import type { Review } from "@/lib/articles";
 
 interface SidebarProps {
   topReviews: Review[];

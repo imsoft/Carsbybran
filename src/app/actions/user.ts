@@ -5,6 +5,7 @@ import { verifySession } from "@/lib/session";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { createSession } from "@/lib/session";
 import {
   toggleFavorite,
   upsertUserReview,
@@ -53,5 +54,22 @@ export async function updateNameAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
   if (!name || name.length < 2) return;
   await db.update(users).set({ name }).where(eq(users.id, session.userId));
+  await createSession({ userId: session.userId, email: session.email, name, role: session.role, avatarUrl: session.avatarUrl });
+  revalidatePath("/");
+}
+
+export async function updateAvatarAction(formData: FormData) {
+  const session = await verifySession();
+  const file = formData.get("avatar") as File | null;
+  if (!file || file.size === 0) return;
+
+  const { put } = await import("@vercel/blob");
+  const ext = file.name.split(".").pop() ?? "jpg";
+  const blob = await put(`avatars/${session.userId}.${ext}`, file, {
+    access: "public",
+  });
+
+  await db.update(users).set({ avatarUrl: blob.url }).where(eq(users.id, session.userId));
+  await createSession({ userId: session.userId, email: session.email, name: session.name, role: session.role, avatarUrl: blob.url });
   revalidatePath("/");
 }
