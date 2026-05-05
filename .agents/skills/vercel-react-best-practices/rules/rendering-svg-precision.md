@@ -1,5 +1,6 @@
 ---
 title: Optimize SVG Precision
+description: Reduce SVG coordinate precision to shrink file size
 impact: LOW
 impactDescription: reduces file size
 tags: rendering, svg, optimization, svgo

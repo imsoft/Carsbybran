@@ -1,5 +1,6 @@
 ---
 title: Use useTransition Over Manual Loading States
+description: Prefer useTransition instead of manual isLoading state
 impact: LOW
 impactDescription: reduces re-renders and improves code clarity
 tags: rendering, transitions, useTransition, loading, state

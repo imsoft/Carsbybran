@@ -1,5 +1,6 @@
 ---
 title: Defer State Reads to Usage Point
+description: Avoid subscribing to dynamic state only read inside callbacks
 impact: MEDIUM
 impactDescription: avoids unnecessary subscriptions
 tags: rerender, searchParams, localStorage, optimization
