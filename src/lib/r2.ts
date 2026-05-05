@@ -15,6 +15,11 @@ const PUBLIC_BASE = (
   process.env.R2_PUBLIC_URL ?? `${process.env.R2_ENDPOINT}/${BUCKET}`
 ).replace(/\/$/, "");
 
+/** Segmentos seguros para prefijos R2 (IDs internos art_user, art_, etc.). */
+export function r2SafeSegment(id: string): string {
+  return id.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 200) || "unknown";
+}
+
 export async function uploadToR2(
   key: string,
   body: ArrayBuffer,

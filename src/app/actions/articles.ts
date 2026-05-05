@@ -15,7 +15,7 @@ import { db } from "@/lib/db";
 import { articles } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { verifySession } from "@/lib/session";
-import { uploadToR2 } from "@/lib/r2";
+import { r2SafeSegment, uploadToR2 } from "@/lib/r2";
 
 function parseJson<T>(raw: unknown, fallback: T): T {
   if (typeof raw !== "string" || !raw) return fallback;
@@ -40,14 +40,16 @@ function parseStructured(data: ReturnType<typeof ArticleSchema.safeParse>["data"
 
 async function resolveCoverImage(
   formData: FormData,
-  existingUrl?: string | null
+  existingUrl: string | null | undefined,
+  articleId: string
 ): Promise<string | null> {
   const field = formData.get("coverImage");
+  const prefix = `articles/${r2SafeSegment(articleId)}`;
 
-  // File upload: send to R2
+  // File upload: send to R2 (una carpeta por artículo para localizar en bucket)
   if (field instanceof File && field.size > 0) {
-    const ext = field.name.split(".").pop() ?? "jpg";
-    const key = `covers/${Date.now()}.${ext}`;
+    const ext = (field.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+    const key = `${prefix}/cover.${ext}`;
     return uploadToR2(key, await field.arrayBuffer(), field.type || "image/jpeg");
   }
 
@@ -64,8 +66,10 @@ export async function createArticle(
 ): Promise<ArticleFormState> {
   await verifySession();
 
+  const id = `art_${Date.now()}`;
+
   // Handle file upload before passing to schema (schema expects a string)
-  const coverImage = await resolveCoverImage(formData);
+  const coverImage = await resolveCoverImage(formData, undefined, id);
 
   // Remove the file entry so Zod only sees strings
   const raw: Record<string, unknown> = Object.fromEntries(
@@ -82,8 +86,6 @@ export async function createArticle(
     }
     return { errors: fieldErrors };
   }
-
-  const id = `art_${Date.now()}`;
   const now = new Date();
   const structured = parseStructured(result.data);
 
@@ -127,7 +129,7 @@ export async function updateArticle(
     .select({ coverImage: articles.coverImage })
     .from(articles)
     .where(eq(articles.id, id));
-  const coverImage = await resolveCoverImage(formData, existing[0]?.coverImage);
+  const coverImage = await resolveCoverImage(formData, existing[0]?.coverImage, id);
 
   const raw: Record<string, unknown> = Object.fromEntries(
     [...formData.entries()].filter(([k, v]) => k !== "coverImage" && !(v instanceof File))
