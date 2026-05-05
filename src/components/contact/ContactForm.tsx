@@ -18,10 +18,6 @@ interface ContactFormProps {
     send: string;
     sending: string;
     success: string;
-    namePlaceholder: string;
-    emailPlaceholder: string;
-    subjectPlaceholder: string;
-    messagePlaceholder: string;
   };
 }
 
@@ -50,7 +46,7 @@ function Field({
 }
 
 const inputClass =
-  "w-full rounded-md border border-border bg-card px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20";
+  "w-full rounded-md border border-border bg-card px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const initialState: ContactFormState = { status: "idle" };
 
@@ -77,7 +73,6 @@ export function ContactForm({ dict }: ContactFormProps) {
             type="text"
             name="name"
             required
-            placeholder={dict.namePlaceholder}
             className={cn(inputClass, state.errors?.name && "border-destructive")}
           />
         </Field>
@@ -86,7 +81,6 @@ export function ContactForm({ dict }: ContactFormProps) {
             type="email"
             name="email"
             required
-            placeholder={dict.emailPlaceholder}
             className={cn(inputClass, state.errors?.email && "border-destructive")}
           />
         </Field>
@@ -97,7 +91,6 @@ export function ContactForm({ dict }: ContactFormProps) {
           type="text"
           name="subject"
           required
-          placeholder={dict.subjectPlaceholder}
           className={cn(inputClass, state.errors?.subject && "border-destructive")}
         />
       </Field>
@@ -107,7 +100,6 @@ export function ContactForm({ dict }: ContactFormProps) {
           name="message"
           required
           rows={5}
-          placeholder={dict.messagePlaceholder}
           className={cn(inputClass, "resize-none", state.errors?.message && "border-destructive")}
         />
       </Field>

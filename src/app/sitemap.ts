@@ -3,6 +3,7 @@ import { getArticles } from "@/lib/mock-articles";
 
 const BASE_URL = "https://carsbybran.com";
 const locales = ["en-US", "es-MX"] as const;
+const now = new Date();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const published = (await getArticles()).filter((a) => a.status === "published");
@@ -17,12 +18,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const staticUrls: MetadataRoute.Sitemap = locales.flatMap((lang) => [
-    { url: `${BASE_URL}/${lang}`, changeFrequency: "daily" as const, priority: 1 },
-    { url: `${BASE_URL}/${lang}/reviews`, changeFrequency: "daily" as const, priority: 0.9 },
-    { url: `${BASE_URL}/${lang}/brands`, changeFrequency: "weekly" as const, priority: 0.7 },
-    { url: `${BASE_URL}/${lang}/comparisons`, changeFrequency: "weekly" as const, priority: 0.7 },
-    { url: `${BASE_URL}/${lang}/about`, changeFrequency: "monthly" as const, priority: 0.5 },
-    { url: `${BASE_URL}/${lang}/contact`, changeFrequency: "monthly" as const, priority: 0.4 },
+    { url: `${BASE_URL}/${lang}`, changeFrequency: "weekly" as const, priority: 1.0, lastModified: now },
+    { url: `${BASE_URL}/${lang}/reviews`, changeFrequency: "weekly" as const, priority: 0.9, lastModified: now },
+    { url: `${BASE_URL}/${lang}/brands`, changeFrequency: "weekly" as const, priority: 0.7, lastModified: now },
+    { url: `${BASE_URL}/${lang}/comparisons`, changeFrequency: "weekly" as const, priority: 0.7, lastModified: now },
+    { url: `${BASE_URL}/${lang}/about`, changeFrequency: "monthly" as const, priority: 0.5, lastModified: now },
+    { url: `${BASE_URL}/${lang}/contact`, changeFrequency: "monthly" as const, priority: 0.4, lastModified: now },
   ]);
 
   return [...staticUrls, ...articleUrls];

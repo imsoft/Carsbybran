@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "../dictionaries";
+import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BrandFilter } from "@/components/home/BrandFilter";
@@ -10,7 +11,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.brands.title} — Carsbybran`, description: dict.meta.description };
+  const title = `${dict.brands.title} — Carsbybran`;
+  return { title, description: dict.meta.description, ...pageMeta(lang, "/brands", title, dict.meta.description) };
 }
 
 export default async function BrandsPage({ params }: PageProps<"/[lang]">) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/my-reviews
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.myReviews.title} — Carsbybran` };
+  return { title: `${dict.myReviews.title} — Carsbybran`, robots: { index: false, follow: false } };
 }
 
 function StarRating({ value }: { value: number }) {
@@ -73,10 +74,11 @@ export default async function MyReviewsPage({ params }: PageProps<"/[lang]/my-re
                   {/* Thumbnail */}
                   <div className="shrink-0 w-24 h-16 rounded-lg overflow-hidden bg-muted">
                     {article!.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={article!.coverImage}
                         alt={isEs ? article!.titleEs : article!.titleEn}
+                        width={96}
+                        height={64}
                         className="w-full h-full object-cover"
                       />
                     ) : (

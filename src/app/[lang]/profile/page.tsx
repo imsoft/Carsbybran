@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/profile">)
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.profile.title} — Carsbybran` };
+  return { title: `${dict.profile.title} — Carsbybran`, robots: { index: false, follow: false } };
 }
 
 export default async function ProfilePage({ params }: PageProps<"/[lang]/profile">) {

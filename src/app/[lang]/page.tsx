@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "./dictionaries";
+import { pageMeta } from "@/lib/seo";
 import {
   featuredReview,
   reviews,
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   return {
     title: dict.meta.title,
     description: dict.meta.description,
-    openGraph: { title: dict.meta.title, description: dict.meta.description },
+    ...pageMeta(lang, "", dict.meta.title, dict.meta.description),
   };
 }
 

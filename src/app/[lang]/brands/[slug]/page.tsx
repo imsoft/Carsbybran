@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { getDictionary, hasLocale } from "../../dictionaries";
@@ -9,6 +10,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { pageMeta } from "@/lib/seo";
 
 type Props = PageProps<"/[lang]/brands/[slug]">;
 
@@ -18,8 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const brand = brands.find((b) => b.slug === slug);
   if (!brand) return { title: "Not found" };
   const dict = await getDictionary(lang);
+  const title = `${brand.name} ${dict.brands.reviewPlural} — Carsbybran`;
   return {
-    title: `${brand.name} ${dict.brands.reviewPlural} — Carsbybran`,
+    title,
+    ...pageMeta(lang, `/brands/${slug}`, title, dict.meta.description),
   };
 }
 
@@ -78,12 +82,15 @@ export default async function BrandPage({ params }: Props) {
                 className="group flex flex-col rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
               >
                 {article.coverImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={article.coverImage}
-                    alt={isEs ? article.titleEs : article.titleEn}
-                    className="aspect-video w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <Image
+                      src={article.coverImage}
+                      alt={isEs ? article.titleEs : article.titleEn}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
                 ) : (
                   <div className="aspect-video bg-muted flex items-center justify-center">
                     <BookOpen className="size-8 text-muted-foreground/30" />

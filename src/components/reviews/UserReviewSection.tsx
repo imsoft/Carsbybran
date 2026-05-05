@@ -17,7 +17,6 @@ type Dict = {
   submitReview: string;
   deleteReview: string;
   noReviewYet: string;
-  reviewPlaceholder: string;
   postedOn: string;
   editReview: string;
   overallScore: string;
@@ -171,7 +170,6 @@ export function UserReviewSection({
             <Textarea
               id="comment"
               name="comment"
-              placeholder={dict.reviewPlaceholder}
               defaultValue={existingReview?.comment ?? ""}
               rows={4}
               required

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Mail, MapPin, Clock } from "lucide-react";
 import { getDictionary, hasLocale } from "../dictionaries";
+import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -10,7 +11,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.contact.title} — Carsbybran`, description: dict.meta.description };
+  const title = `${dict.contact.title} — Carsbybran`;
+  return { title, description: dict.meta.description, ...pageMeta(lang, "/contact", title, dict.meta.description) };
 }
 
 export default async function ContactPage({ params }: PageProps<"/[lang]">) {

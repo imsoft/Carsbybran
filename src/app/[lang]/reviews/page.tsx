@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "../dictionaries";
+import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ReviewFilters } from "@/components/reviews/ReviewFilters";
@@ -10,9 +11,11 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
+  const title = `${dict.reviews.title} — Carsbybran`;
   return {
-    title: `${dict.reviews.title} — Carsbybran`,
+    title,
     description: dict.meta.description,
+    ...pageMeta(lang, "/reviews", title, dict.meta.description),
   };
 }
 

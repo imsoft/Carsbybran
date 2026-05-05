@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, Tag, PlayCircle, ThumbsUp, ThumbsDown } from "lucide-react";
 import { getDictionary, hasLocale } from "../../dictionaries";
 import { getArticleBySlug, getRelatedArticles } from "@/lib/mock-articles";
+import { pageAlternates, ogImages, BASE_URL, SITE_NAME, TWITTER_HANDLE, AUTHOR_NAME } from "@/lib/seo";
 import { getSession } from "@/lib/session";
 import { isFavorite, getUserReviewForArticle } from "@/lib/mock-user-data";
 import { Navbar } from "@/components/layout/Navbar";
@@ -12,7 +14,6 @@ import { FavoriteButton } from "@/components/reviews/FavoriteButton";
 import { UserReviewSection } from "@/components/reviews/UserReviewSection";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import type { Article, ArticleRatings } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 
@@ -24,13 +25,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticleBySlug(slug);
   if (!article) return { title: "Not found" };
   const isEs = lang === "es-MX";
+  const title = isEs ? article.titleEs : article.titleEn;
+  const description = isEs ? article.excerptEs : article.excerptEn;
+  const locale = isEs ? "es_MX" : "en_US";
   return {
-    title: isEs ? article.titleEs : article.titleEn,
-    description: isEs ? article.excerptEs : article.excerptEn,
+    title,
+    description,
+    alternates: pageAlternates(lang, `/reviews/${slug}`),
     openGraph: {
-      title: isEs ? article.titleEs : article.titleEn,
-      description: isEs ? article.excerptEs : article.excerptEn,
-      images: article.coverImage ? [{ url: article.coverImage }] : [],
+      type: "article",
+      title,
+      description,
+      url: `${BASE_URL}/${lang}/reviews/${slug}`,
+      siteName: SITE_NAME,
+      locale,
+      publishedTime: article.createdAt,
+      modifiedTime: article.updatedAt,
+      authors: [AUTHOR_NAME],
+      section: article.category,
+      tags: article.tags,
+      images: ogImages(article.coverImage, title),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      creator: TWITTER_HANDLE,
+      ...(article.coverImage ? { images: [article.coverImage] } : {}),
     },
   };
 }
@@ -58,19 +79,47 @@ export default async function ArticlePage({ params }: Props) {
   ]);
   const existingReview = existingReviewRaw ?? null;
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: excerpt,
+    image: article.coverImage ? [article.coverImage] : undefined,
+    datePublished: article.createdAt,
+    dateModified: article.updatedAt,
+    author: { "@type": "Person", name: AUTHOR_NAME, url: BASE_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+    url: `${BASE_URL}/${lang}/reviews/${article.slug}`,
+    inLanguage: lang,
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${BASE_URL}/${lang}` },
+      { "@type": "ListItem", position: 2, name: "Reviews", item: `${BASE_URL}/${lang}/reviews` },
+      { "@type": "ListItem", position: 3, name: title, item: `${BASE_URL}/${lang}/reviews/${article.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Navbar lang={lang} dict={dict.nav} />
 
       <main className="flex-1">
         {/* ── Hero cover ── */}
         {article.coverImage && (
           <div className="relative w-full aspect-21/9 max-h-[480px] overflow-hidden bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={article.coverImage}
               alt={title}
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
           </div>
@@ -80,7 +129,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
             {/* ── Main column ── */}
-            <div className="min-w-0 space-y-8">
+            <article className="min-w-0 space-y-8">
 
               {/* Article header */}
               <header className="space-y-4">
@@ -88,10 +137,10 @@ export default async function ArticlePage({ params }: Props) {
                   <Badge variant="outline" className="capitalize text-xs">
                     {article.category}
                   </Badge>
-                  <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <time dateTime={article.updatedAt} className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar className="size-3" />
                     {new Date(article.updatedAt).toLocaleDateString(locale, { dateStyle: "long" })}
-                  </span>
+                  </time>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="size-3" />
                     5 {dict.article.minRead}
@@ -198,7 +247,7 @@ export default async function ArticlePage({ params }: Props) {
                 isLoggedIn={!!session}
                 dict={dict.article}
               />
-            </div>
+            </article>
 
             {/* ── Sidebar ── */}
             <aside className="space-y-6 lg:sticky lg:top-20 lg:self-start">
@@ -225,12 +274,15 @@ export default async function ArticlePage({ params }: Props) {
                         className="flex gap-3 group"
                       >
                         {rel.coverImage ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={rel.coverImage}
-                            alt={isEs ? rel.titleEs : rel.titleEn}
-                            className="size-16 rounded-lg object-cover shrink-0"
-                          />
+                          <div className="relative size-16 rounded-lg overflow-hidden shrink-0">
+                            <Image
+                              src={rel.coverImage}
+                              alt={isEs ? rel.titleEs : rel.titleEn}
+                              fill
+                              sizes="64px"
+                              className="object-cover"
+                            />
+                          </div>
                         ) : (
                           <div className="size-16 rounded-lg bg-muted shrink-0" />
                         )}
@@ -259,7 +311,7 @@ export default async function ArticlePage({ params }: Props) {
 
 // ── Inline block components ───────────────────────────────────────────────────
 
-function ArticleBody({ content, lang, adLabel }: { content: string; lang: string; adLabel: string }) {
+function ArticleBody({ content, adLabel }: { content: string; lang?: string; adLabel: string }) {
   const sections = content.split(/(?=^## )/m).filter(Boolean);
   const midIndex = Math.floor(sections.length / 3);
 
@@ -464,12 +516,15 @@ function GalleryBlock({
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {images.map((img, i) => (
           <figure key={i} className="rounded-lg overflow-hidden bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={img.url}
-              alt={img.caption || `${title} ${i + 1}`}
-              className="w-full aspect-video object-cover hover:scale-105 transition-transform duration-300"
-            />
+            <div className="relative aspect-video">
+              <Image
+                src={img.url}
+                alt={img.caption || `${title} ${i + 1}`}
+                fill
+                sizes="(max-width: 640px) 50vw, 33vw"
+                className="object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
             {img.caption && (
               <figcaption className="px-2 py-1 text-xs text-muted-foreground">
                 {img.caption}

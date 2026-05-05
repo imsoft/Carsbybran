@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Car, ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {

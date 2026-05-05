@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Search, BookOpen } from "lucide-react";
 import { getDictionary, hasLocale } from "../dictionaries";
@@ -17,6 +18,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const dict = await getDictionary(lang);
   return {
     title: q ? `"${q}" — ${dict.search.title} — Carsbybran` : `${dict.search.title} — Carsbybran`,
+    robots: { index: false, follow: false },
   };
 }
 
@@ -77,12 +79,15 @@ export default async function SearchPage({ params, searchParams }: Props) {
                 className="group flex gap-4 py-5 hover:bg-muted/30 rounded-lg px-2 -mx-2 transition-colors"
               >
                 {article.coverImage && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={article.coverImage}
-                    alt={isEs ? article.titleEs : article.titleEn}
-                    className="size-20 rounded-lg object-cover shrink-0 hidden sm:block"
-                  />
+                  <div className="relative size-20 rounded-lg overflow-hidden shrink-0 hidden sm:block">
+                    <Image
+                      src={article.coverImage}
+                      alt={isEs ? article.titleEs : article.titleEn}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="min-w-0 space-y-1.5">
                   <Badge variant="outline" className="text-xs capitalize">

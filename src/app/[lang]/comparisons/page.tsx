@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "../dictionaries";
+import { pageMeta } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CarComparisonTool } from "@/components/comparisons/CarComparisonTool";
@@ -10,7 +11,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.comparisons.title} — Carsbybran`, description: dict.meta.description };
+  const title = `${dict.comparisons.title} — Carsbybran`;
+  return { title, description: dict.meta.description, ...pageMeta(lang, "/comparisons", title, dict.meta.description) };
 }
 
 export default async function ComparisonsPage({

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/favorites"
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  return { title: `${dict.favorites.title} — Carsbybran` };
+  return { title: `${dict.favorites.title} — Carsbybran`, robots: { index: false, follow: false } };
 }
 
 export default async function FavoritesPage({ params }: PageProps<"/[lang]/favorites">) {
@@ -58,12 +59,15 @@ export default async function FavoritesPage({ params }: PageProps<"/[lang]/favor
               <div key={article.id} className="group relative flex flex-col border rounded-xl overflow-hidden bg-card hover:shadow-md transition-shadow">
                 {/* Cover */}
                 {article.coverImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={article.coverImage}
-                    alt={isEs ? article.titleEs : article.titleEn}
-                    className="aspect-video w-full object-cover"
-                  />
+                  <div className="relative aspect-video w-full">
+                    <Image
+                      src={article.coverImage}
+                      alt={isEs ? article.titleEs : article.titleEn}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
                 ) : (
                   <div className="aspect-video bg-muted flex items-center justify-center">
                     <BookOpen className="size-8 text-muted-foreground/30" />
