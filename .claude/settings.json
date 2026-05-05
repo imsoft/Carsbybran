@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"automotive review blog editorial minimal dark mode\" --design-system -p \"Carsbybran\" -f markdown)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"editorial blog automotive minimal\" --domain color -n 5)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark mode light mode contrast\" --domain style -n 3)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm dev *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/en-US)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/es-MX)",
+      "Bash(kill %1)",
+      "Bash(kill 9153)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]/dictionaries/en.json'\\)\\); print\\(json.dumps\\(d['comparisons'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]/dictionaries/es.json'\\)\\); print\\(json.dumps\\(d['comparisons'], indent=2\\)\\)\")",
+      "Bash(pnpm dlx *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(list\\(d.keys\\(\\)\\)\\)\\)\")",
+      "Bash(mv \"src/app/[lang]/favoritos\" \"src/app/[lang]/favorites\")",
+      "Bash(mv \"src/app/[lang]/mis-resenas\" \"src/app/[lang]/my-reviews\")",
+      "Bash(mv \"src/app/[lang]/perfil\" \"src/app/[lang]/profile\")",
+      "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/brands/\\\\[slug\\\\])",
+      "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/search)",
+      "Bash(mkdir -p /Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/\\\\[lang\\\\]/reviews/\\\\[slug\\\\])",
+      "Bash(pnpm drizzle-kit *)"
+    ],
+    "additionalDirectories": [
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]/videos",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/dashboard/articles/[id]",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/preview",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/dashboard/articles/[id]/preview",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]/profile",
+      "/Users/brangarciaramos/Proyectos/carsbybran/carsbybran/src/app/[lang]/reviews"
+    ]
+  }
+}

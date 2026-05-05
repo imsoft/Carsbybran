@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "Carsbybran — Expert Automotive Reviews",
+    "description": "In-depth reviews, comparisons and analysis of the latest cars."
+  },
+  "nav": {
+    "reviews": "Reviews",
+    "brands": "Brands",
+    "comparisons": "Comparisons",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search reviews...",
+    "openMenu": "Open menu",
+    "login": "Sign in",
+    "register": "Sign up",
+    "dashboard": "Dashboard",
+    "profile": "My profile",
+    "favorites": "Favorites",
+    "myReviews": "My reviews",
+    "logout": "Sign out"
+  },
+  "home": {
+    "heroLabel": "Featured Review",
+    "readFull": "Read Full Review",
+    "minRead": "min read",
+    "latestReviews": "Latest Reviews",
+    "seeAll": "See All",
+    "byBrand": "Browse by Brand",
+    "topRated": "Top Rated",
+    "advertisement": "Advertisement"
+  },
+  "card": {
+    "readMore": "Read Review",
+    "minRead": "min read"
+  },
+  "sidebar": {
+    "topRated": "Top Rated Reviews",
+    "readMore": "Read"
+  },
+  "brands": {
+    "title": "Browse by Brand",
+    "subtitle": "Filter reviews by your favorite manufacturer",
+    "allBrands": "All brands",
+    "reviewSingular": "review",
+    "reviewPlural": "reviews",
+    "noReviews": "No reviews for this brand yet.",
+    "browseAll": "Browse all reviews"
+  },
+  "search": {
+    "title": "Search results",
+    "resultSingular": "result for",
+    "resultPlural": "results for",
+    "emptyPrompt": "Type something to search for reviews.",
+    "noResults": "No results for"
+  },
+  "reviews": {
+    "title": "All Reviews",
+    "all": "All",
+    "filterBrand": "Brand",
+    "filterCategory": "Category",
+    "resultsCount": "reviews found",
+    "noResults": "No reviews match your filters.",
+    "clearFilters": "Clear filters"
+  },
+  "comparisons": {
+    "title": "Compare Cars",
+    "subtitle": "Pick up to 3 cars and see their specs side by side",
+    "selectPrompt": "Choose the cars you want to compare",
+    "selectedCount": "selected",
+    "maxReached": "Maximum 3 cars selected",
+    "minSelect": "Select at least 2 cars to start comparing",
+    "clearAll": "Clear all",
+    "readReview": "Read review",
+    "specs": {
+      "brand": "Brand",
+      "model": "Model",
+      "category": "Segment",
+      "year": "Year",
+      "rating": "Rating",
+      "readTime": "Read time",
+      "minRead": "min"
+    }
+  },
+  "about": {
+    "eyebrow": "About Carsbybran",
+    "title": "Real drives. Honest opinions.",
+    "subtitle": "We don't accept manufacturer loans. Every vehicle we test is bought or rented — so our opinions are never for sale.",
+    "missionTitle": "Our Mission",
+    "mission": "Carsbybran was founded on a simple belief: drivers deserve honest, independent automotive journalism. No sponsored content, no manufacturer incentives. Just rigorous testing and straight talk from people who genuinely love cars."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Questions, tips, or partnership inquiries? We read every message.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent! We'll get back to you within 48 hours.",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "your@email.com",
+    "subjectPlaceholder": "What's this about?",
+    "messagePlaceholder": "Tell us more..."
+  },
+  "profile": {
+    "title": "My profile",
+    "memberSince": "Member since",
+    "editName": "Edit name",
+    "save": "Save",
+    "cancel": "Cancel",
+    "account": "Account",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "stats": {
+      "favorites": "Favorites",
+      "reviews": "Reviews",
+      "comments": "Comments"
+    }
+  },
+  "favorites": {
+    "title": "My favorites",
+    "subtitle": "Articles you saved for later",
+    "empty": "You haven't saved any articles yet.",
+    "emptyCta": "Browse reviews",
+    "remove": "Remove from favorites"
+  },
+  "myReviews": {
+    "title": "My reviews",
+    "subtitle": "Your take on the cars you've read about",
+    "empty": "You haven't left any reviews yet.",
+    "emptyCta": "Browse articles",
+    "yourRating": "Your rating",
+    "yourComment": "Your comment",
+    "submitReview": "Post review",
+    "editReview": "Edit",
+    "deleteReview": "Delete",
+    "placeholder": "What do you think about this car?",
+    "postedOn": "Posted on"
+  },
+  "article": {
+    "by": "By",
+    "minRead": "min read",
+    "save": "Save",
+    "saved": "Saved",
+    "loginToSave": "Sign in to save",
+    "relatedTitle": "More Articles",
+    "reviewSectionTitle": "Reader Review",
+    "loginToReview": "Sign in to leave a review",
+    "yourRating": "Your rating",
+    "yourComment": "Your comment",
+    "submitReview": "Post review",
+    "deleteReview": "Delete",
+    "noReviewYet": "You haven't reviewed this article yet.",
+    "reviewPlaceholder": "What do you think about this car?",
+    "postedOn": "Posted on",
+    "editReview": "Edit",
+    "overallScore": "Overall Score",
+    "outOf": "Out of 10",
+    "readTime": "min read",
+    "specsTitle": "Specifications",
+    "versionsTitle": "Versions & pricing",
+    "versionCol": "Version",
+    "priceFrom": "From",
+    "priceTo": "To",
+    "highlights": "Highlights",
+    "videoLabel": "Video",
+    "pros": "Pros",
+    "cons": "Cons",
+    "ratingLabels": {
+      "performance": "Performance",
+      "comfort": "Comfort",
+      "technology": "Technology",
+      "value": "Value",
+      "design": "Design",
+      "safety": "Safety"
+    },
+    "advertisement": "Advertisement"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to comment, save favorites and more",
+      "orEmail": "or with email",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up for free",
+      "googleCta": "Continue with Google",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "errors": {
+        "google_denied": "You cancelled the Google sign in.",
+        "csrf_mismatch": "The request expired. Please try again.",
+        "token_error": "Could not complete Google sign in.",
+        "userinfo_failed": "Could not retrieve your Google information.",
+        "no_email": "Your Google account has no verified email.",
+        "not_configured": "Google sign in is not available yet."
+      }
+    },
+    "register": {
+      "title": "Join Carsbybran",
+      "subtitle": "Comment, save favorites, vote reviews and more",
+      "orEmail": "or with email",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "googleCta": "Sign up with Google",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Min. 8 characters",
+      "submit": "Create account",
+      "submitting": "Creating account…"
+    }
+  },
+  "footer": {
+    "tagline": "Expert automotive reviews for every driver.",
+    "sections": {
+      "reviews": "Reviews",
+      "brands": "Brands",
+      "about": "About Us",
+      "contact": "Contact"
+    },
+    "legal": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "All rights reserved."
+  }
+}

@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Carsbybran
+
+Aplicación [Next.js](https://nextjs.org) del proyecto **carsbybran** (sitio público: [carsbybran.com](https://carsbybran.com)), inicialmente creada con [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 

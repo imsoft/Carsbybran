@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "Carsbybran — Reseñas Automotrices Expertas",
+    "description": "Reseñas detalladas, comparativas y análisis de los últimos autos."
+  },
+  "nav": {
+    "reviews": "Reseñas",
+    "brands": "Marcas",
+    "comparisons": "Comparativas",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "search": "Buscar reseñas...",
+    "openMenu": "Abrir menú",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "dashboard": "Dashboard",
+    "profile": "Mi perfil",
+    "favorites": "Favoritos",
+    "myReviews": "Mis reseñas",
+    "logout": "Cerrar sesión"
+  },
+  "home": {
+    "heroLabel": "Reseña Destacada",
+    "readFull": "Leer Reseña Completa",
+    "minRead": "min de lectura",
+    "latestReviews": "Últimas Reseñas",
+    "seeAll": "Ver Todas",
+    "byBrand": "Explorar por Marca",
+    "topRated": "Mejor Valorados",
+    "advertisement": "Publicidad"
+  },
+  "card": {
+    "readMore": "Leer Reseña",
+    "minRead": "min de lectura"
+  },
+  "sidebar": {
+    "topRated": "Reseñas Mejor Valoradas",
+    "readMore": "Leer"
+  },
+  "brands": {
+    "title": "Explorar por Marca",
+    "subtitle": "Filtra las reseñas por tu marca favorita",
+    "allBrands": "Todas las marcas",
+    "reviewSingular": "reseña",
+    "reviewPlural": "reseñas",
+    "noReviews": "Aún no hay reseñas para esta marca.",
+    "browseAll": "Ver todas las reseñas"
+  },
+  "search": {
+    "title": "Resultados de búsqueda",
+    "resultSingular": "resultado para",
+    "resultPlural": "resultados para",
+    "emptyPrompt": "Escribe algo para buscar reseñas.",
+    "noResults": "Sin resultados para"
+  },
+  "reviews": {
+    "title": "Todas las Reseñas",
+    "all": "Todas",
+    "filterBrand": "Marca",
+    "filterCategory": "Categoría",
+    "resultsCount": "reseñas encontradas",
+    "noResults": "Ninguna reseña coincide con tus filtros.",
+    "clearFilters": "Limpiar filtros"
+  },
+  "comparisons": {
+    "title": "Comparar Autos",
+    "subtitle": "Elige hasta 3 autos y ve sus especificaciones lado a lado",
+    "selectPrompt": "Elige los autos que quieres comparar",
+    "selectedCount": "seleccionados",
+    "maxReached": "Máximo 3 autos seleccionados",
+    "minSelect": "Selecciona al menos 2 autos para comenzar la comparativa",
+    "clearAll": "Limpiar todo",
+    "readReview": "Leer reseña",
+    "specs": {
+      "brand": "Marca",
+      "model": "Modelo",
+      "category": "Segmento",
+      "year": "Año",
+      "rating": "Calificación",
+      "readTime": "Tiempo de lectura",
+      "minRead": "min"
+    }
+  },
+  "about": {
+    "eyebrow": "Sobre Carsbybran",
+    "title": "Manejo real. Opiniones honestas.",
+    "subtitle": "No aceptamos préstamos de fabricantes. Cada vehículo que probamos lo compramos o rentamos, así nuestras opiniones nunca están en venta.",
+    "missionTitle": "Nuestra Misión",
+    "mission": "Carsbybran nació de una creencia simple: los conductores merecen periodismo automotriz honesto e independiente. Sin contenido patrocinado, sin incentivos de fabricantes. Solo pruebas rigurosas y opiniones directas de personas que genuinamente aman los autos."
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "¿Preguntas, tips o consultas de colaboración? Leemos cada mensaje.",
+    "name": "Nombre Completo",
+    "email": "Correo Electrónico",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "success": "¡Mensaje enviado! Te respondemos en menos de 48 horas.",
+    "namePlaceholder": "Tu nombre completo",
+    "emailPlaceholder": "tu@correo.com",
+    "subjectPlaceholder": "¿De qué se trata?",
+    "messagePlaceholder": "Cuéntanos más..."
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "memberSince": "Miembro desde",
+    "editName": "Editar nombre",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "account": "Cuenta",
+    "name": "Nombre",
+    "email": "Email",
+    "password": "Contraseña",
+    "stats": {
+      "favorites": "Favoritos",
+      "reviews": "Reseñas",
+      "comments": "Comentarios"
+    }
+  },
+  "favorites": {
+    "title": "Mis favoritos",
+    "subtitle": "Artículos que guardaste para leer después",
+    "empty": "Aún no tienes artículos guardados.",
+    "emptyCta": "Explorar reseñas",
+    "remove": "Quitar de favoritos"
+  },
+  "myReviews": {
+    "title": "Mis reseñas",
+    "subtitle": "Tu opinión sobre los autos que has leído",
+    "empty": "Todavía no has dejado ninguna reseña.",
+    "emptyCta": "Ver artículos",
+    "yourRating": "Tu calificación",
+    "yourComment": "Tu comentario",
+    "submitReview": "Publicar reseña",
+    "editReview": "Editar",
+    "deleteReview": "Eliminar",
+    "placeholder": "¿Qué piensas sobre este auto?",
+    "postedOn": "Publicado el"
+  },
+  "article": {
+    "by": "Por",
+    "minRead": "min de lectura",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "loginToSave": "Inicia sesión para guardar",
+    "relatedTitle": "Más Artículos",
+    "reviewSectionTitle": "Reseña del lector",
+    "loginToReview": "Inicia sesión para dejar una reseña",
+    "yourRating": "Tu calificación",
+    "yourComment": "Tu comentario",
+    "submitReview": "Publicar reseña",
+    "deleteReview": "Eliminar",
+    "noReviewYet": "Aún no has reseñado este artículo.",
+    "reviewPlaceholder": "¿Qué opinas sobre este auto?",
+    "postedOn": "Publicado el",
+    "editReview": "Editar",
+    "overallScore": "Puntuación general",
+    "outOf": "Sobre 10",
+    "readTime": "min de lectura",
+    "specsTitle": "Ficha técnica",
+    "versionsTitle": "Versiones y precios",
+    "versionCol": "Versión",
+    "priceFrom": "Desde",
+    "priceTo": "Hasta",
+    "highlights": "Equipamiento",
+    "videoLabel": "Video",
+    "pros": "Ventajas",
+    "cons": "Desventajas",
+    "ratingLabels": {
+      "performance": "Desempeño",
+      "comfort": "Confort",
+      "technology": "Tecnología",
+      "value": "Precio/Valor",
+      "design": "Diseño",
+      "safety": "Seguridad"
+    },
+    "advertisement": "Publicidad"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de vuelta",
+      "subtitle": "Inicia sesión para comentar, guardar favoritos y más",
+      "orEmail": "o con email",
+      "noAccount": "¿No tienes cuenta?",
+      "signUpLink": "Regístrate gratis",
+      "googleCta": "Continuar con Google",
+      "emailLabel": "Email",
+      "passwordLabel": "Contraseña",
+      "submit": "Iniciar sesión",
+      "submitting": "Entrando…",
+      "errors": {
+        "google_denied": "Cancelaste el inicio de sesión con Google.",
+        "csrf_mismatch": "La solicitud expiró. Por favor intenta de nuevo.",
+        "token_error": "No se pudo completar el inicio de sesión con Google.",
+        "userinfo_failed": "No se pudo obtener tu información de Google.",
+        "no_email": "Tu cuenta de Google no tiene un email verificado.",
+        "not_configured": "El inicio de sesión con Google no está disponible aún."
+      }
+    },
+    "register": {
+      "title": "Únete a Carsbybran",
+      "subtitle": "Comenta, guarda favoritos, vota reseñas y más",
+      "orEmail": "o con email",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signInLink": "Inicia sesión",
+      "googleCta": "Registrarse con Google",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "emailLabel": "Email",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Mín. 8 caracteres",
+      "submit": "Crear cuenta",
+      "submitting": "Creando cuenta…"
+    }
+  },
+  "footer": {
+    "tagline": "Reseñas automotrices expertas para cada conductor.",
+    "sections": {
+      "reviews": "Reseñas",
+      "brands": "Marcas",
+      "about": "Nosotros",
+      "contact": "Contacto"
+    },
+    "legal": {
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio"
+    },
+    "copyright": "Todos los derechos reservados."
+  }
+}
