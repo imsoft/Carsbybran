@@ -6,6 +6,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ReviewFilters } from "@/components/reviews/ReviewFilters";
 import { allReviews } from "@/lib/mock-data";
+import { getSession } from "@/lib/session";
+import { getFavorites } from "@/lib/mock-user-data";
+import { getArticleById } from "@/lib/mock-articles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -23,6 +26,12 @@ export default async function ReviewsPage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
+  const session = await getSession();
+  const favoriteIds = session ? await getFavorites(session.userId) : [];
+  const favoriteArticles = await Promise.all(favoriteIds.map((id) => getArticleById(id)));
+  const favoriteSlugs = favoriteArticles
+    .filter((article): article is NonNullable<typeof article> => Boolean(article))
+    .map((article) => article.slug);
 
   return (
     <>
@@ -36,7 +45,17 @@ export default async function ReviewsPage({ params }: PageProps<"/[lang]">) {
         <ReviewFilters
           reviews={allReviews}
           lang={lang}
-          dict={{ ...dict.reviews, card: dict.card }}
+          dict={{
+            ...dict.reviews,
+            card: {
+              ...dict.card,
+              save: dict.article.save,
+              saved: dict.article.saved,
+              loginToSave: dict.article.loginToSave,
+            },
+          }}
+          canFavorite={Boolean(session)}
+          favoriteSlugs={favoriteSlugs}
         />
       </main>
       <Footer lang={lang} dict={dict.footer} />

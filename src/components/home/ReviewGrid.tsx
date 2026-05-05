@@ -11,11 +11,20 @@ interface ReviewGridProps {
     latestReviews: string;
     seeAll: string;
     advertisement: string;
-    card: { readMore: string; minRead: string };
+    card: {
+      readMore: string;
+      minRead: string;
+      carRating: string;
+      save: string;
+      saved: string;
+      loginToSave: string;
+    };
   };
+  canFavorite: boolean;
+  favoriteSlugs: string[];
 }
 
-export function ReviewGrid({ reviews, lang, dict }: ReviewGridProps) {
+export function ReviewGrid({ reviews, lang, dict, canFavorite, favoriteSlugs }: ReviewGridProps) {
   const firstBatch = reviews.slice(0, 3);
   const secondBatch = reviews.slice(3);
 
@@ -43,6 +52,8 @@ export function ReviewGrid({ reviews, lang, dict }: ReviewGridProps) {
             review={review}
             lang={lang}
             dict={dict.card}
+            canFavorite={canFavorite}
+            initialFavorited={favoriteSlugs.includes(review.slug)}
           />
         ))}
       </div>
@@ -59,6 +70,8 @@ export function ReviewGrid({ reviews, lang, dict }: ReviewGridProps) {
               review={review}
               lang={lang}
               dict={dict.card}
+              canFavorite={canFavorite}
+              initialFavorited={favoriteSlugs.includes(review.slug)}
             />
           ))}
         </div>

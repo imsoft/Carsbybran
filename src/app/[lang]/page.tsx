@@ -15,6 +15,9 @@ import { ReviewGrid } from "@/components/home/ReviewGrid";
 import { Sidebar } from "@/components/home/Sidebar";
 import { BrandFilter } from "@/components/home/BrandFilter";
 import { AdSlot } from "@/components/ads/AdSlot";
+import { getSession } from "@/lib/session";
+import { getFavorites } from "@/lib/mock-user-data";
+import { getArticleById } from "@/lib/mock-articles";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -34,6 +37,12 @@ export default async function HomePage({
   if (!hasLocale(lang)) notFound();
 
   const dict = await getDictionary(lang);
+  const session = await getSession();
+  const favoriteIds = session ? await getFavorites(session.userId) : [];
+  const favoriteArticles = await Promise.all(favoriteIds.map((id) => getArticleById(id)));
+  const favoriteSlugs = favoriteArticles
+    .filter((article): article is NonNullable<typeof article> => Boolean(article))
+    .map((article) => article.slug);
 
   return (
     <>
@@ -58,8 +67,15 @@ export default async function HomePage({
                 latestReviews: dict.home.latestReviews,
                 seeAll: dict.home.seeAll,
                 advertisement: dict.home.advertisement,
-                card: dict.card,
+                card: {
+                  ...dict.card,
+                  save: dict.article.save,
+                  saved: dict.article.saved,
+                  loginToSave: dict.article.loginToSave,
+                },
               }}
+              canFavorite={Boolean(session)}
+              favoriteSlugs={favoriteSlugs}
             />
 
             {/* Sticky sidebar wrapper */}

@@ -31,7 +31,8 @@
   },
   "card": {
     "readMore": "Read Review",
-    "minRead": "min read"
+    "minRead": "min read",
+    "carRating": "Car rating"
   },
   "sidebar": {
     "topRated": "Top Rated Reviews",
@@ -156,7 +157,7 @@
     "reviewPlaceholder": "What do you think about this car?",
     "postedOn": "Posted on",
     "editReview": "Edit",
-    "overallScore": "Overall Score",
+    "overallScore": "Vehicle Score",
     "outOf": "Out of 10",
     "readTime": "min read",
     "specsTitle": "Specifications",

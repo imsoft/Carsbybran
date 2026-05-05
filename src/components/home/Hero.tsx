@@ -63,6 +63,9 @@ export function Hero({ review, lang, dict }: HeroProps) {
                   <span className="font-bold tabular-nums text-white">
                     {review.rating}
                   </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-white/70">
+                    {lang === "es-MX" ? "Auto" : "Car"}
+                  </span>
                 </span>
                 <span className="flex items-center gap-1">
                   <Clock className="h-4 w-4" aria-hidden="true" />

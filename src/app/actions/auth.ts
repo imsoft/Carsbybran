@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { isAdminEmail } from "@/lib/admin-email";
 
 export async function login(
   _state: LoginFormState,
@@ -41,14 +42,20 @@ export async function login(
     return { message: "Email o contraseña incorrectos." };
   }
 
+  let role = user.role as UserRole;
+  if (isAdminEmail(user.email) && user.role !== "admin") {
+    await db.update(users).set({ role: "admin" }).where(eq(users.id, user.id));
+    role = "admin";
+  }
+
   await createSession({
     userId: user.id,
     email: user.email,
     name: user.name,
-    role: user.role as UserRole,
+    role,
   });
 
-  redirect(user.role === "admin" ? "/dashboard" : "/");
+  redirect(role === "admin" ? "/dashboard" : "/");
 }
 
 export async function register(
@@ -83,11 +90,12 @@ export async function register(
 
   const passwordHash = await bcrypt.hash(password, 12);
   const id = `usr_${Date.now()}`;
+  const role: UserRole = isAdminEmail(email) ? "admin" : "user";
 
-  await db.insert(users).values({ id, name, email, passwordHash, role: "user" });
+  await db.insert(users).values({ id, name, email, passwordHash, role });
 
-  await createSession({ userId: id, email, name, role: "user" });
-  redirect("/");
+  await createSession({ userId: id, email, name, role });
+  redirect(role === "admin" ? "/dashboard" : "/");
 }
 
 export async function logout() {
@@ -100,8 +108,17 @@ export async function findOrCreateGoogleUser(googleUser: {
   email: string;
   name: string;
 }) {
+  const role: UserRole = isAdminEmail(googleUser.email) ? "admin" : "user";
+
   const rows = await db.select().from(users).where(eq(users.email, googleUser.email));
-  if (rows.length > 0) return rows[0];
+  if (rows.length > 0) {
+    const existing = rows[0];
+    if (role === "admin" && existing.role !== "admin") {
+      await db.update(users).set({ role: "admin" }).where(eq(users.id, existing.id));
+      return { ...existing, role: "admin" as const };
+    }
+    return existing;
+  }
 
   const id = `usr_google_${googleUser.id}`;
   await db.insert(users).values({
@@ -109,7 +126,7 @@ export async function findOrCreateGoogleUser(googleUser: {
     name: googleUser.name,
     email: googleUser.email,
     passwordHash: null,
-    role: "user",
+    role,
   });
 
   return {
@@ -117,7 +134,7 @@ export async function findOrCreateGoogleUser(googleUser: {
     name: googleUser.name,
     email: googleUser.email,
     passwordHash: null,
-    role: "user",
+    role,
     createdAt: new Date(),
   };
 }

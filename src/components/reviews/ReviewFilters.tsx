@@ -16,8 +16,17 @@ interface ReviewFiltersProps {
     resultsCount: string;
     noResults: string;
     clearFilters: string;
-    card: { readMore: string; minRead: string };
+    card: {
+      readMore: string;
+      minRead: string;
+      carRating: string;
+      save: string;
+      saved: string;
+      loginToSave: string;
+    };
   };
+  canFavorite: boolean;
+  favoriteSlugs: string[];
 }
 
 function FilterPill({
@@ -44,7 +53,7 @@ function FilterPill({
   );
 }
 
-export function ReviewFilters({ reviews, lang, dict }: ReviewFiltersProps) {
+export function ReviewFilters({ reviews, lang, dict, canFavorite, favoriteSlugs }: ReviewFiltersProps) {
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -162,6 +171,8 @@ export function ReviewFilters({ reviews, lang, dict }: ReviewFiltersProps) {
               review={review}
               lang={lang}
               dict={dict.card}
+              canFavorite={canFavorite}
+              initialFavorited={favoriteSlugs.includes(review.slug)}
             />
           ))}
         </div>

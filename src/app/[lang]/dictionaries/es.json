@@ -31,7 +31,8 @@
   },
   "card": {
     "readMore": "Leer Reseña",
-    "minRead": "min de lectura"
+    "minRead": "min de lectura",
+    "carRating": "Calificación del auto"
   },
   "sidebar": {
     "topRated": "Reseñas Mejor Valoradas",
@@ -156,7 +157,7 @@
     "reviewPlaceholder": "¿Qué opinas sobre este auto?",
     "postedOn": "Publicado el",
     "editReview": "Editar",
-    "overallScore": "Puntuación general",
+    "overallScore": "Puntuación del auto",
     "outOf": "Sobre 10",
     "readTime": "min de lectura",
     "specsTitle": "Ficha técnica",

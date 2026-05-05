@@ -10,11 +10,23 @@ import {
   upsertUserReview,
   deleteUserReview,
 } from "@/lib/mock-user-data";
+import { getArticleBySlug } from "@/lib/mock-articles";
 
 export async function toggleFavoriteAction(articleId: string, lang: string) {
   const session = await verifySession();
   await toggleFavorite(session.userId, articleId);
   revalidatePath(`/${lang}/favorites`);
+}
+
+export async function toggleFavoriteBySlugAction(slug: string, lang: string) {
+  const session = await verifySession();
+  const article = await getArticleBySlug(slug);
+  if (!article) return;
+  await toggleFavorite(session.userId, article.id);
+  revalidatePath(`/${lang}/favorites`);
+  revalidatePath(`/${lang}`);
+  revalidatePath(`/${lang}/reviews`);
+  revalidatePath(`/${lang}/reviews/${slug}`);
 }
 
 export async function submitReviewAction(
