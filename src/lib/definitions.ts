@@ -34,8 +34,10 @@ export const ArticleSchema = z.object({
   // Structured data stored as JSON strings from hidden inputs
   specs: z.string().optional(),
   versions: z.string().optional(),
+  versionsEn: z.string().optional(),
   ratings: z.string().optional(),
   prosCons: z.string().optional(),
+  prosConsEn: z.string().optional(),
   gallery: z.string().optional(),
   videoUrl: z.string().optional(),
 });
@@ -135,8 +137,11 @@ export type Article = {
   // Structured blocks (optional)
   specs?: Partial<ArticleSpecs>;
   versions?: ArticleVersion[];
+  /** Textos de versiones en inglés (nombre, equipamiento); precios suelen igualar a ES. */
+  versionsEn?: ArticleVersion[];
   ratings?: Partial<ArticleRatings>;
   prosCons?: ArticleProsCons;
+  prosConsEn?: ArticleProsCons;
   gallery?: ArticleGalleryImage[];
   videoUrl?: string;
 };

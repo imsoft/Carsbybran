@@ -9,6 +9,8 @@ import type { ArticleVersion } from "@/lib/definitions";
 type Props = {
   value: ArticleVersion[];
   onChange: (versions: ArticleVersion[]) => void;
+  /** Nombre del campo en FormData (default `versions` = español). */
+  formHiddenName?: string;
 };
 
 const empty = (): ArticleVersion => ({
@@ -18,7 +20,7 @@ const empty = (): ArticleVersion => ({
   highlights: "",
 });
 
-export function VersionsForm({ value: versions, onChange }: Props) {
+export function VersionsForm({ value: versions, onChange, formHiddenName = "versions" }: Props) {
   function update(i: number, field: keyof ArticleVersion, value: string) {
     onChange(
       versions.map((v, idx) => (idx === i ? { ...v, [field]: value } : v))
@@ -35,7 +37,7 @@ export function VersionsForm({ value: versions, onChange }: Props) {
 
   return (
     <div className="space-y-4">
-      <input type="hidden" name="versions" value={JSON.stringify(versions)} />
+      <input type="hidden" name={formHiddenName} value={JSON.stringify(versions)} />
 
       <div className="grid grid-cols-[1fr_1fr_1fr_2fr_auto] gap-2 text-xs font-medium text-muted-foreground px-1">
         <span>Versión</span>

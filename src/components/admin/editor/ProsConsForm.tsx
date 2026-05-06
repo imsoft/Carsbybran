@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 type Props = {
   value: ArticleProsCons;
   onChange: (data: ArticleProsCons) => void;
+  formHiddenName?: string;
 };
 
-export function ProsConsForm({ value: data, onChange }: Props) {
+export function ProsConsForm({ value: data, onChange, formHiddenName = "prosCons" }: Props) {
   function updateItem(type: "pros" | "cons", i: number, text: string) {
     onChange({
       ...data,
@@ -32,7 +33,7 @@ export function ProsConsForm({ value: data, onChange }: Props) {
 
   return (
     <div className="space-y-6">
-      <input type="hidden" name="prosCons" value={JSON.stringify(data)} />
+      <input type="hidden" name={formHiddenName} value={JSON.stringify(data)} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {(["pros", "cons"] as const).map((type) => {

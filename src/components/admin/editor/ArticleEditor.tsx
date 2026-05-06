@@ -85,11 +85,17 @@ export function ArticleEditor({ article, action }: Props) {
   const [slugManual, setSlugManual] = useState(!!article?.slug);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "unsaved">("idle");
   const [translating, setTranslating] = useState<"idle" | "to-en" | "to-es">("idle");
-  const [versions, setVersions] = useState<ArticleVersion[]>(() =>
+  const [versionsEs, setVersionsEs] = useState<ArticleVersion[]>(() =>
     article?.versions?.length ? article.versions : [emptyVersion()]
   );
-  const [prosCons, setProsCons] = useState<ArticleProsCons>(() =>
+  const [versionsEn, setVersionsEn] = useState<ArticleVersion[]>(() =>
+    article?.versionsEn?.length ? article.versionsEn : [emptyVersion()]
+  );
+  const [prosConsEs, setProsConsEs] = useState<ArticleProsCons>(() =>
     article?.prosCons ?? defaultProsCons()
+  );
+  const [prosConsEn, setProsConsEn] = useState<ArticleProsCons>(() =>
+    article?.prosConsEn ?? defaultProsCons()
   );
 
   useEffect(() => {
@@ -122,8 +128,10 @@ export function ArticleEditor({ article, action }: Props) {
     excerptEn,
     contentEnDraft,
     slug,
-    versions,
-    prosCons,
+    versionsEs,
+    versionsEn,
+    prosConsEs,
+    prosConsEn,
   ]);
 
   useEffect(() => {
@@ -139,8 +147,8 @@ export function ArticleEditor({ article, action }: Props) {
         titleEs,
         excerptEs,
         contentEs: contentEsDraft,
-        versions,
-        prosCons,
+        versions: versionsEs,
+        prosCons: prosConsEs,
       });
       if (!r.ok) {
         toast.error(r.error);
@@ -149,8 +157,8 @@ export function ArticleEditor({ article, action }: Props) {
       setTitleEn(r.titleEn);
       setExcerptEn(r.excerptEn);
       setContentEnDraft(r.contentEn);
-      if (r.versionsEn) setVersions(r.versionsEn);
-      if (r.prosConsEn) setProsCons(r.prosConsEn);
+      if (r.versionsEn) setVersionsEn(r.versionsEn);
+      if (r.prosConsEn) setProsConsEn(r.prosConsEn);
       toast.success("Campos EN actualizados con Google Translate. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -166,8 +174,8 @@ export function ArticleEditor({ article, action }: Props) {
         titleEn,
         excerptEn,
         contentEn: contentEnDraft,
-        versions,
-        prosCons,
+        versions: versionsEn,
+        prosCons: prosConsEn,
       });
       if (!r.ok) {
         toast.error(r.error);
@@ -176,8 +184,8 @@ export function ArticleEditor({ article, action }: Props) {
       setTitleEs(r.titleEs);
       setExcerptEs(r.excerptEs);
       setContentEsDraft(r.contentEs);
-      if (r.versionsEs) setVersions(r.versionsEs);
-      if (r.prosConsEs) setProsCons(r.prosConsEs);
+      if (r.versionsEs) setVersionsEs(r.versionsEs);
+      if (r.prosConsEs) setProsConsEs(r.prosConsEs);
       toast.success("Campos ES actualizados con Google Translate. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -189,12 +197,12 @@ export function ArticleEditor({ article, action }: Props) {
   async function handleTranslateVersionsToEn() {
     setTranslating("to-en");
     try {
-      const r = await translateVersionsEsToEn(versions);
+      const r = await translateVersionsEsToEn(versionsEs);
       if (!r.ok) {
         toast.error(r.error);
         return;
       }
-      setVersions(r.versions);
+      setVersionsEn(r.versions);
       toast.success("Versiones traducidas al inglés. Revísalas antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -206,12 +214,12 @@ export function ArticleEditor({ article, action }: Props) {
   async function handleTranslateVersionsToEs() {
     setTranslating("to-es");
     try {
-      const r = await translateVersionsEnToEs(versions);
+      const r = await translateVersionsEnToEs(versionsEn);
       if (!r.ok) {
         toast.error(r.error);
         return;
       }
-      setVersions(r.versions);
+      setVersionsEs(r.versions);
       toast.success("Versiones traducidas al español. Revísalas antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -223,12 +231,12 @@ export function ArticleEditor({ article, action }: Props) {
   async function handleTranslateProsConsToEn() {
     setTranslating("to-en");
     try {
-      const r = await translateProsConsEsToEn(prosCons);
+      const r = await translateProsConsEsToEn(prosConsEs);
       if (!r.ok) {
         toast.error(r.error);
         return;
       }
-      setProsCons(r.prosCons);
+      setProsConsEn(r.prosCons);
       toast.success("Pros/contras traducidos al inglés. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -240,12 +248,12 @@ export function ArticleEditor({ article, action }: Props) {
   async function handleTranslateProsConsToEs() {
     setTranslating("to-es");
     try {
-      const r = await translateProsConsEnToEs(prosCons);
+      const r = await translateProsConsEnToEs(prosConsEn);
       if (!r.ok) {
         toast.error(r.error);
         return;
       }
-      setProsCons(r.prosCons);
+      setProsConsEs(r.prosCons);
       toast.success("Pros/contras traducidos al español. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -255,7 +263,12 @@ export function ArticleEditor({ article, action }: Props) {
   }
 
   return (
-    <form ref={formRef} action={formAction} className="flex flex-col gap-6">
+    <form
+      ref={formRef}
+      action={formAction}
+      encType="multipart/form-data"
+      className="flex flex-col gap-6"
+    >
       {state.message && (
         <p className={state.success ? "text-sm text-emerald-600" : "text-sm text-destructive"}>
           {state.message}
@@ -388,36 +401,53 @@ export function ArticleEditor({ article, action }: Props) {
           <SpecsForm key={`specs-${serverDataKey}`} defaultValue={article?.specs} />
         </TabsContent>
 
-        {/* ── Versiones & precios ── */}
+        {/* ── Versiones & precios (ES + EN por separado) ── */}
         <TabsContent value="versions" forceMount className="mt-4 space-y-4">
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="gap-1.5"
-              disabled={translating !== "idle"}
-              onClick={handleTranslateVersionsToEn}
-            >
-              <Languages className="size-3.5" />
-              {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              disabled={translating !== "idle"}
-              onClick={handleTranslateVersionsToEs}
-            >
-              <Languages className="size-3.5" />
-              {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
-            </Button>
-          </div>
           <p className="text-xs text-muted-foreground">
-            Traduce nombre y equipamiento de cada versión. Los precios no se modifican.
+            Edita español e inglés por separado. Traducir rellena solo la otra lengua; los precios en EN suelen copiarse del bloque ES al traducir.
           </p>
-          <VersionsForm value={versions} onChange={setVersions} />
+          <Tabs defaultValue="ver-es" className="w-full">
+            <TabsList className="h-9">
+              <TabsTrigger value="ver-es" className="text-xs">
+                🇲🇽 Español
+              </TabsTrigger>
+              <TabsTrigger value="ver-en" className="text-xs">
+                🇺🇸 English
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="ver-es" forceMount className="mt-4 space-y-3">
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={translating !== "idle"}
+                  onClick={handleTranslateVersionsToEs}
+                >
+                  <Languages className="size-3.5" />
+                  {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
+                </Button>
+              </div>
+              <VersionsForm value={versionsEs} onChange={setVersionsEs} formHiddenName="versions" />
+            </TabsContent>
+            <TabsContent value="ver-en" forceMount className="mt-4 space-y-3">
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={translating !== "idle"}
+                  onClick={handleTranslateVersionsToEn}
+                >
+                  <Languages className="size-3.5" />
+                  {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
+                </Button>
+              </div>
+              <VersionsForm value={versionsEn} onChange={setVersionsEn} formHiddenName="versionsEn" />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
 
         {/* ── Calificaciones ── */}
@@ -425,33 +455,50 @@ export function ArticleEditor({ article, action }: Props) {
           <RatingsForm key={`ratings-${serverDataKey}`} defaultValue={article?.ratings} />
         </TabsContent>
 
-        {/* ── Pros / Contras ── */}
+        {/* ── Pros / Contras (ES + EN) ── */}
         <TabsContent value="proscons" forceMount className="mt-4 space-y-4">
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="gap-1.5"
-              disabled={translating !== "idle"}
-              onClick={handleTranslateProsConsToEn}
-            >
-              <Languages className="size-3.5" />
-              {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              disabled={translating !== "idle"}
-              onClick={handleTranslateProsConsToEs}
-            >
-              <Languages className="size-3.5" />
-              {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
-            </Button>
-          </div>
-          <ProsConsForm value={prosCons} onChange={setProsCons} />
+          <Tabs defaultValue="pc-es" className="w-full">
+            <TabsList className="h-9">
+              <TabsTrigger value="pc-es" className="text-xs">
+                🇲🇽 Español
+              </TabsTrigger>
+              <TabsTrigger value="pc-en" className="text-xs">
+                🇺🇸 English
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="pc-es" forceMount className="mt-4 space-y-3">
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={translating !== "idle"}
+                  onClick={handleTranslateProsConsToEs}
+                >
+                  <Languages className="size-3.5" />
+                  {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
+                </Button>
+              </div>
+              <ProsConsForm value={prosConsEs} onChange={setProsConsEs} formHiddenName="prosCons" />
+            </TabsContent>
+            <TabsContent value="pc-en" forceMount className="mt-4 space-y-3">
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={translating !== "idle"}
+                  onClick={handleTranslateProsConsToEn}
+                >
+                  <Languages className="size-3.5" />
+                  {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
+                </Button>
+              </div>
+              <ProsConsForm value={prosConsEn} onChange={setProsConsEn} formHiddenName="prosConsEn" />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
 
         {/* ── Galería ── */}
@@ -543,10 +590,14 @@ export function ArticleEditor({ article, action }: Props) {
         />
       </div>
 
-      {/* Cover image */}
+      {/* Cover image — key fuerza remount tras guardar para alinear con URL del servidor */}
       <div className="space-y-1.5">
         <Label>Imagen de portada</Label>
-        <ImageUploader name="coverImage" defaultPreview={article?.coverImage || undefined} />
+        <ImageUploader
+          key={article ? `cover-${serverDataKey}` : "cover-new"}
+          name="coverImage"
+          defaultPreview={article?.coverImage || undefined}
+        />
       </div>
     </form>
   );

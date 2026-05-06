@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { UploadCloud, X, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,8 +15,15 @@ export function ImageUploader({ name, defaultPreview }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  // Stores the File so we can re-attach to a DataTransfer if needed
   const fileRef = useRef<File | null>(null);
+  const blobUrlRef = useRef<string | null>(null);
+
+  function revokeBlob() {
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+  }
 
   function handleFile(file: File) {
     if (!file.type.startsWith("image/")) {
@@ -29,9 +36,13 @@ export function ImageUploader({ name, defaultPreview }: Props) {
     }
     setError(null);
     fileRef.current = file;
+    revokeBlob();
     const url = URL.createObjectURL(file);
+    blobUrlRef.current = url;
     setPreview(url);
   }
+
+  useEffect(() => () => revokeBlob(), []);
 
   const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -48,14 +59,14 @@ export function ImageUploader({ name, defaultPreview }: Props) {
   const onDragLeave = () => setIsDragging(false);
 
   function clearImage() {
-    setPreview(null);
+    revokeBlob();
     fileRef.current = null;
+    setPreview(null);
     if (inputRef.current) inputRef.current.value = "";
   }
 
   return (
     <div className="space-y-2">
-      {/* Hidden file input — the actual field submitted */}
       <input
         ref={inputRef}
         type="file"

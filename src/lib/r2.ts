@@ -23,7 +23,8 @@ export function r2SafeSegment(id: string): string {
 export async function uploadToR2(
   key: string,
   body: ArrayBuffer,
-  contentType: string
+  contentType: string,
+  opts?: { cacheControl?: string }
 ): Promise<string> {
   await r2.send(
     new PutObjectCommand({
@@ -31,6 +32,7 @@ export async function uploadToR2(
       Key: key,
       Body: new Uint8Array(body),
       ContentType: contentType,
+      ...(opts?.cacheControl ? { CacheControl: opts.cacheControl } : {}),
     })
   );
   return `${PUBLIC_BASE}/${key}`;

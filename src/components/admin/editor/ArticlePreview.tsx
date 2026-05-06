@@ -2,6 +2,8 @@ import type { Article, ArticleRatings } from "@/lib/definitions";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatPriceMx } from "@/lib/utils";
+import { parseArticleMarkdown, splitArticleSections } from "@/lib/article-markdown";
+import { articleProsConsForLang, articleVersionsForLang } from "@/lib/article-locale";
 import { ThumbsUp, ThumbsDown, PlayCircle } from "lucide-react";
 
 type Props = { article: Article; lang?: "es" | "en" };
@@ -12,13 +14,16 @@ export function ArticlePreview({ article, lang = "es" }: Props) {
   const excerpt = isEs ? article.excerptEs : article.excerptEn;
   const content = isEs ? article.contentEs : article.contentEn;
   const locale = isEs ? "es-MX" : "en-US";
-  const sections = splitIntoSections(content);
+  const sections = splitArticleSections(content);
+  const routeLang = lang === "es" ? "es-MX" : "en-US";
+  const versionsForPreview = articleVersionsForLang(article, routeLang);
+  const prosConsForPreview = articleProsConsForLang(article, routeLang);
 
   return (
-    <article className="max-w-2xl mx-auto space-y-8 pb-16">
+    <article className="max-w-2xl mx-auto flex flex-col gap-12 lg:gap-14 pb-16">
 
       {/* ── Header ── */}
-      <header className="space-y-4">
+      <header className="space-y-4 pb-10 border-b border-border/60">
         <div className="flex items-center gap-2 flex-wrap">
           <Badge variant="outline" className="capitalize text-xs">{article.category}</Badge>
           <span className="text-xs text-muted-foreground">
@@ -53,17 +58,30 @@ export function ArticlePreview({ article, lang = "es" }: Props) {
       )}
 
       {/* ── Article body with mid-ad ── */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-0">
         {sections.map((section, i) => (
-          <div key={i}>
+          <section
+            key={i}
+            className={cn(
+              "scroll-mt-28",
+              i > 0 && "mt-12 pt-12 border-t border-border/70"
+            )}
+          >
             <div
-              className="prose prose-sm dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: parseMarkdown(section) }}
+              className="article-prose prose prose-sm md:prose-base dark:prose-invert max-w-none
+                prose-headings:font-bold prose-headings:tracking-tight
+                prose-h2:text-xl prose-h2:mt-0 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-border/50
+                prose-h3:text-lg prose-h3:mt-10 prose-h3:mb-4
+                prose-p:my-5 prose-p:leading-[1.8] prose-p:text-foreground/90
+                prose-strong:text-foreground prose-a:text-primary
+                prose-img:rounded-xl prose-img:shadow-sm prose-img:my-8
+                prose-ul:my-6 prose-li:my-1"
+              dangerouslySetInnerHTML={{ __html: parseArticleMarkdown(section) }}
             />
             {i === Math.floor(sections.length / 3) && sections.length > 2 && (
-              <div className="my-6"><AdSlot position="mid" label="336×280" /></div>
+              <div className="my-10"><AdSlot position="mid" label="336×280" /></div>
             )}
-          </div>
+          </section>
         ))}
       </div>
 
@@ -73,30 +91,30 @@ export function ArticlePreview({ article, lang = "es" }: Props) {
       )}
 
       {/* ── Versions & prices ── */}
-      {article.versions && article.versions.length > 0 && (
-        <VersionsBlock versions={article.versions} lang={lang} />
+      {versionsForPreview && versionsForPreview.length > 0 && (
+        <VersionsBlock versions={versionsForPreview} lang={lang} />
       )}
 
       {/* ── Gallery ── */}
       {article.gallery && article.gallery.length > 0 && (
-        <GalleryBlock images={article.gallery} title={title} />
+        <GalleryBlock images={article.gallery} title={title} lang={lang} />
       )}
 
       {/* ── Video ── */}
-      {article.videoUrl && <VideoBlock url={article.videoUrl} />}
+      {article.videoUrl && <VideoBlock url={article.videoUrl} lang={lang} />}
 
       {/* ── Pros / Cons ── */}
-      {article.prosCons && (
-        <ProsConsBlock prosCons={article.prosCons} lang={lang} />
+      {prosConsForPreview && (
+        <ProsConsBlock prosCons={prosConsForPreview} lang={lang} />
       )}
 
-      <Separator />
+      <Separator className="my-2" />
 
       {/* ── Ad: Bottom ── */}
       <AdSlot position="bottom" label="728×90" />
 
       {/* ── Author ── */}
-      <footer className="flex items-center gap-3 pt-2">
+      <footer className="flex items-center gap-3 pt-6 mt-2 border-t border-border/60">
         <div className="size-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold">B</div>
         <div>
           <p className="text-sm font-medium">Brandon Garcia</p>
@@ -130,7 +148,7 @@ function RatingsBlock({ ratings, lang }: { ratings: Partial<ArticleRatings>; lan
   }
 
   return (
-    <section className="rounded-xl border bg-card p-5 space-y-4">
+    <section className="rounded-xl border bg-card p-6 md:p-7 space-y-5 shadow-sm">
       <div className="flex items-center gap-4">
         <div className="text-5xl font-bold tabular-nums text-primary">{avg}</div>
         <div>
@@ -182,9 +200,9 @@ function SpecsBlock({ specs, lang }: { specs: Article["specs"]; lang: "es" | "en
   const entries = Object.entries(specs).filter(([, v]) => v) as [string, string][];
 
   return (
-    <section className="rounded-xl border bg-card overflow-hidden">
-      <div className="px-5 py-3 border-b bg-muted/40">
-        <h2 className="font-semibold text-sm">{lang === "es" ? "🔧 Ficha técnica" : "🔧 Specifications"}</h2>
+    <section className="rounded-xl border bg-card overflow-hidden shadow-sm">
+      <div className="px-5 py-3.5 border-b bg-muted/50">
+        <h2 className="font-semibold text-sm md:text-base tracking-tight">{lang === "es" ? "🔧 Ficha técnica" : "🔧 Specifications"}</h2>
       </div>
       <div className="divide-y">
         {entries.map(([key, val]) => (
@@ -206,9 +224,9 @@ function VersionsBlock({ versions, lang }: { versions: NonNullable<Article["vers
     : { title: "📊 Versions & pricing", version: "Version", from: "From", to: "To", highlights: "Highlights" };
 
   return (
-    <section className="rounded-xl border bg-card overflow-hidden">
-      <div className="px-5 py-3 border-b bg-muted/40">
-        <h2 className="font-semibold text-sm">{t.title}</h2>
+    <section className="rounded-xl border bg-card overflow-hidden shadow-sm">
+      <div className="px-5 py-3.5 border-b bg-muted/50">
+        <h2 className="font-semibold text-sm md:text-base tracking-tight">{t.title}</h2>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -246,13 +264,13 @@ function ProsConsBlock({ prosCons, lang }: { prosCons: NonNullable<Article["pros
     : { pros: "✅ Pros", cons: "❌ Cons" };
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 pt-2">
       {(["pros", "cons"] as const).map((type) => {
         const isPro = type === "pros";
         const items = prosCons[type].filter((i) => i.text);
         if (!items.length) return null;
         return (
-          <div key={type} className={cn("rounded-xl border p-4 space-y-2", isPro ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5")}>
+          <div key={type} className={cn("rounded-xl border p-5 md:p-6 space-y-3 shadow-sm", isPro ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5")}>
             <h3 className={cn("font-semibold text-sm flex items-center gap-2", isPro ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400")}>
               {isPro ? <ThumbsUp className="size-4" /> : <ThumbsDown className="size-4" />}
               {t[type]}
@@ -272,10 +290,15 @@ function ProsConsBlock({ prosCons, lang }: { prosCons: NonNullable<Article["pros
   );
 }
 
-function GalleryBlock({ images, title }: { images: NonNullable<Article["gallery"]>; title: string }) {
+function GalleryBlock({ images, title, lang }: { images: NonNullable<Article["gallery"]>; title: string; lang: "es" | "en" }) {
+  const galleryTitle = lang === "es" ? "Galería" : "Gallery";
   return (
-    <section className="space-y-2">
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    <section className="rounded-xl border bg-card overflow-hidden shadow-sm">
+      <div className="px-5 py-3.5 border-b bg-muted/50">
+        <h2 className="font-semibold text-sm md:text-base tracking-tight">🖼️ {galleryTitle}</h2>
+      </div>
+      <div className="p-4 md:p-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {images.map((img, i) => (
           <figure key={i} className="rounded-lg overflow-hidden bg-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -286,20 +309,23 @@ function GalleryBlock({ images, title }: { images: NonNullable<Article["gallery"
           </figure>
         ))}
       </div>
+      </div>
     </section>
   );
 }
 
-function VideoBlock({ url }: { url: string }) {
+function VideoBlock({ url, lang }: { url: string; lang: "es" | "en" }) {
   const id = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/)?.[1];
   if (!id) return null;
+  const label = lang === "es" ? "Video" : "Video";
   return (
-    <section className="space-y-2">
-      <div className="flex items-center gap-1.5 text-sm font-semibold">
-        <PlayCircle className="size-4 text-red-500" />
-        Video
+    <section className="rounded-xl border bg-card overflow-hidden shadow-sm">
+      <div className="px-5 py-3.5 border-b bg-muted/50 flex items-center gap-2">
+        <PlayCircle className="size-4 text-red-500 shrink-0" />
+        <h2 className="font-semibold text-sm md:text-base tracking-tight">{label}</h2>
       </div>
-      <div className="rounded-xl overflow-hidden border aspect-video">
+      <div className="p-3 md:p-4">
+      <div className="rounded-lg overflow-hidden border aspect-video bg-muted">
         <iframe
           src={`https://www.youtube.com/embed/${id}`}
           title="Video"
@@ -307,6 +333,7 @@ function VideoBlock({ url }: { url: string }) {
           allowFullScreen
           className="w-full h-full"
         />
+      </div>
       </div>
     </section>
   );
@@ -322,22 +349,3 @@ function AdSlot({ position, label }: { position: "top" | "mid" | "bottom" | "sid
   );
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-function splitIntoSections(md: string): string[] {
-  return md.split(/(?=^## )/m).filter(Boolean);
-}
-
-function parseMarkdown(md: string): string {
-  return md
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/^### (.+)$/gm, "<h3>$1</h3>")
-    .replace(/^## (.+)$/gm, "<h2>$1</h2>")
-    .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/_(.+?)_/g, "<em>$1</em>")
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, "<img src='$2' alt='$1' />")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "<a href='$2'>$1</a>")
-    .replace(/^- (.+)$/gm, "<li>$1</li>")
-    .replace(/\n{2,}/g, "</p><p>");
-}

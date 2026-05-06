@@ -31,8 +31,10 @@ function parseStructured(data: ReturnType<typeof ArticleSchema.safeParse>["data"
   return {
     specs: parseJson<Partial<ArticleSpecs>>(data.specs, {}),
     versions: parseJson<ArticleVersion[]>(data.versions, []),
+    versionsEn: parseJson<ArticleVersion[]>(data.versionsEn, []),
     ratings: parseJson<Partial<ArticleRatings>>(data.ratings, {}),
     prosCons: parseJson<ArticleProsCons>(data.prosCons, { pros: [], cons: [] }),
+    prosConsEn: parseJson<ArticleProsCons>(data.prosConsEn, { pros: [], cons: [] }),
     gallery: parseJson<ArticleGalleryImage[]>(data.gallery, []),
     videoUrl: data.videoUrl ?? null,
   };
@@ -49,8 +51,10 @@ async function resolveCoverImage(
   // File upload: send to R2 (una carpeta por artículo para localizar en bucket)
   if (field instanceof File && field.size > 0) {
     const ext = (field.name.split(".").pop() ?? "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-    const key = `${prefix}/cover.${ext}`;
-    return uploadToR2(key, await field.arrayBuffer(), field.type || "image/jpeg");
+    const key = `${prefix}/cover-${Date.now()}.${ext}`;
+    return uploadToR2(key, await field.arrayBuffer(), field.type || "image/jpeg", {
+      cacheControl: "public, max-age=3600, must-revalidate",
+    });
   }
 
   // String URL (e.g. existing value kept by the form)
@@ -105,8 +109,10 @@ export async function createArticle(
     views: 0,
     specs: structured.specs as unknown,
     versions: structured.versions as unknown,
+    versionsEn: structured.versionsEn as unknown,
     ratings: structured.ratings as unknown,
     prosCons: structured.prosCons as unknown,
+    prosConsEn: structured.prosConsEn as unknown,
     gallery: structured.gallery as unknown,
     videoUrl: structured.videoUrl,
     createdAt: now,
@@ -164,8 +170,10 @@ export async function updateArticle(
       tags: result.data.tags?.split(",").map((t) => t.trim()).filter(Boolean) ?? [],
       specs: structured.specs as unknown,
       versions: structured.versions as unknown,
+      versionsEn: structured.versionsEn as unknown,
       ratings: structured.ratings as unknown,
       prosCons: structured.prosCons as unknown,
+      prosConsEn: structured.prosConsEn as unknown,
       gallery: structured.gallery as unknown,
       videoUrl: structured.videoUrl,
       updatedAt: new Date(),
