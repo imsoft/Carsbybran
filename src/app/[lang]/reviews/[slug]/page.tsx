@@ -16,7 +16,7 @@ import { UserReviewSection } from "@/components/reviews/UserReviewSection";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { Badge } from "@/components/ui/badge";
 import type { Article, ArticleRatings } from "@/lib/definitions";
-import { cn } from "@/lib/utils";
+import { cn, formatPriceMx } from "@/lib/utils";
 
 type Props = PageProps<"/[lang]/reviews/[slug]">;
 
@@ -468,10 +468,10 @@ function VersionsBlock({
               <tr key={i} className="hover:bg-muted/20 transition-colors">
                 <td className="px-4 py-3 font-semibold">{v.name}</td>
                 <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400 font-medium">
-                  {v.priceMin ? `$${v.priceMin}` : "—"}
+                  {v.priceMin ? `$${formatPriceMx(v.priceMin)}` : "—"}
                 </td>
                 <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400 font-medium">
-                  {v.priceMax ? `$${v.priceMax}` : "—"}
+                  {v.priceMax ? `$${formatPriceMx(v.priceMax)}` : "—"}
                 </td>
                 <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{v.highlights}</td>
               </tr>

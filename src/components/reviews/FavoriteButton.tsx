@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic, useTransition } from "react";
-import { Heart } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toggleFavoriteAction } from "@/app/actions/user";
 import { cn } from "@/lib/utils";
@@ -30,9 +30,12 @@ export function FavoriteButton({ articleId, lang, initialFavorited, labels }: Pr
       size="sm"
       onClick={handleClick}
       disabled={isPending}
-      className={cn("gap-1.5", optimisticFav && "bg-rose-500 hover:bg-rose-600 border-rose-500 text-white")}
+      className={cn(
+        "gap-1.5",
+        optimisticFav && "bg-primary hover:bg-primary/90 border-primary text-primary-foreground"
+      )}
     >
-      <Heart className={cn("size-4", optimisticFav && "fill-current")} />
+      <Bookmark className={cn("size-4", optimisticFav && "fill-current")} />
       {optimisticFav ? labels.saved : labels.save}
     </Button>
   );

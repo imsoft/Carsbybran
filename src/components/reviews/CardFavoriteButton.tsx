@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { useOptimistic, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -45,7 +45,7 @@ export function CardFavoriteButton({
       disabled={isPending}
       className={cn(
         "rounded-full",
-        optimisticFav && "bg-rose-500 hover:bg-rose-600 border-rose-500 text-white"
+        optimisticFav && "bg-primary hover:bg-primary/90 border-primary text-primary-foreground"
       )}
       title={optimisticFav ? labels.saved : labels.save}
       aria-label={optimisticFav ? labels.saved : labels.save}
@@ -56,7 +56,7 @@ export function CardFavoriteButton({
         })
       }
     >
-      <Heart className={cn("size-3.5", optimisticFav && "fill-current")} />
+      <Bookmark className={cn("size-3.5", optimisticFav && "fill-current")} />
     </Button>
   );
 }

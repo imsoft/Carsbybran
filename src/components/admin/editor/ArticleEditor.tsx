@@ -33,6 +33,7 @@ import {
 } from "@/app/actions/translate";
 import { Save, Eye, CloudOff, Cloud, Languages } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type Props = {
@@ -69,9 +70,11 @@ function toSlug(text: string): string {
 }
 
 export function ArticleEditor({ article, action }: Props) {
+  const router = useRouter();
   const [state, formAction, pending] = useActionState(action, initialState);
   const storageKey = article ? `cbb_draft_${article.id}` : "cbb_draft_new";
   const formRef = useRef<HTMLFormElement>(null);
+  const serverDataKey = article ? `${article.id}:${article.updatedAt}` : "new";
   const [titleEs, setTitleEs] = useState(article?.titleEs ?? "");
   const [excerptEs, setExcerptEs] = useState(article?.excerptEs ?? "");
   const [contentEsDraft, setContentEsDraft] = useState(article?.contentEs ?? "");
@@ -122,6 +125,12 @@ export function ArticleEditor({ article, action }: Props) {
     versions,
     prosCons,
   ]);
+
+  useEffect(() => {
+    if (state.success && article?.id) {
+      router.refresh();
+    }
+  }, [state.success, article?.id, router]);
 
   async function handleTranslateToEn() {
     setTranslating("to-en");
@@ -274,7 +283,7 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsList>
 
         {/* ── Contenido ES ── */}
-        <TabsContent value="content-es" className="space-y-4 mt-4">
+        <TabsContent value="content-es" forceMount className="space-y-4 mt-4">
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Button
               type="button"
@@ -324,7 +333,7 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Content EN ── */}
-        <TabsContent value="content-en" className="space-y-4 mt-4">
+        <TabsContent value="content-en" forceMount className="space-y-4 mt-4">
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Button
               type="button"
@@ -375,12 +384,12 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Ficha técnica ── */}
-        <TabsContent value="specs" className="mt-4">
-          <SpecsForm defaultValue={article?.specs} />
+        <TabsContent value="specs" forceMount className="mt-4">
+          <SpecsForm key={`specs-${serverDataKey}`} defaultValue={article?.specs} />
         </TabsContent>
 
         {/* ── Versiones & precios ── */}
-        <TabsContent value="versions" className="mt-4 space-y-4">
+        <TabsContent value="versions" forceMount className="mt-4 space-y-4">
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Button
               type="button"
@@ -412,12 +421,12 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Calificaciones ── */}
-        <TabsContent value="ratings" className="mt-4">
-          <RatingsForm defaultValue={article?.ratings} />
+        <TabsContent value="ratings" forceMount className="mt-4">
+          <RatingsForm key={`ratings-${serverDataKey}`} defaultValue={article?.ratings} />
         </TabsContent>
 
         {/* ── Pros / Contras ── */}
-        <TabsContent value="proscons" className="mt-4 space-y-4">
+        <TabsContent value="proscons" forceMount className="mt-4 space-y-4">
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Button
               type="button"
@@ -446,13 +455,13 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Galería ── */}
-        <TabsContent value="gallery" className="mt-4">
-          <GalleryUploader defaultValue={article?.gallery} />
+        <TabsContent value="gallery" forceMount className="mt-4">
+          <GalleryUploader key={`gallery-${serverDataKey}`} defaultValue={article?.gallery} />
         </TabsContent>
 
         {/* ── Video ── */}
-        <TabsContent value="video" className="mt-4">
-          <VideoForm defaultValue={article?.videoUrl} />
+        <TabsContent value="video" forceMount className="mt-4">
+          <VideoForm key={`video-${serverDataKey}`} defaultValue={article?.videoUrl} />
         </TabsContent>
       </Tabs>
 

@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User, Heart, Star, LayoutDashboard } from "lucide-react";
+import { LogOut, User, Bookmark, Star, LayoutDashboard } from "lucide-react";
 import type { SessionPayload } from "@/lib/definitions";
 
 type Props = {
@@ -89,7 +89,7 @@ export function NavbarAuthSection({ session, lang, dict }: Props) {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/${lang}/favorites`} className="cursor-pointer">
-            <Heart className="mr-2 size-3.5" />
+            <Bookmark className="mr-2 size-3.5" />
             {dict.favorites}
           </Link>
         </DropdownMenuItem>

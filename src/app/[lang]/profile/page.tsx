@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AvatarUpload } from "@/components/profile/AvatarUpload";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Star, MessageCircle, CalendarDays } from "lucide-react";
+import { Bookmark, Star, MessageCircle, CalendarDays } from "lucide-react";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/profile">): Promise<Metadata> {
   const { lang } = await params;
@@ -35,7 +35,7 @@ export default async function ProfilePage({ params }: PageProps<"/[lang]/profile
     : "—";
 
   const statsItems = [
-    { label: dict.profile.stats.favorites, value: stats.favorites, icon: Heart, href: `/${lang}/favorites` },
+    { label: dict.profile.stats.favorites, value: stats.favorites, icon: Bookmark, href: `/${lang}/favorites` },
     { label: dict.profile.stats.reviews, value: stats.reviews, icon: Star, href: `/${lang}/my-reviews` },
     { label: dict.profile.stats.comments, value: stats.comments, icon: MessageCircle, href: "#" },
   ];

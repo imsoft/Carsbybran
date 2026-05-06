@@ -11,7 +11,7 @@ import { getArticleById } from "@/lib/mock-articles";
 import { toggleFavoriteAction } from "@/app/actions/user";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, BookOpen } from "lucide-react";
+import { Bookmark, BookOpen } from "lucide-react";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/favorites">): Promise<Metadata> {
   const { lang } = await params;
@@ -39,7 +39,7 @@ export default async function FavoritesPage({ params }: PageProps<"/[lang]/favor
 
         <div className="space-y-1">
           <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Heart className="size-6 text-accent fill-accent" />
+            <Bookmark className="size-6 text-primary fill-primary" />
             {dict.favorites.title}
           </h1>
           <p className="text-sm text-muted-foreground">{dict.favorites.subtitle}</p>
@@ -47,7 +47,7 @@ export default async function FavoritesPage({ params }: PageProps<"/[lang]/favor
 
         {articles.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
-            <Heart className="size-12 text-muted-foreground/30" />
+            <Bookmark className="size-12 text-muted-foreground/30" />
             <p className="text-muted-foreground">{dict.favorites.empty}</p>
             <Button asChild variant="outline">
               <Link href={`/${lang}/reviews`}>{dict.favorites.emptyCta}</Link>
@@ -97,7 +97,7 @@ export default async function FavoritesPage({ params }: PageProps<"/[lang]/favor
                         className="size-8 text-accent hover:text-destructive"
                         title={dict.favorites.remove}
                       >
-                        <Heart className="size-4 fill-current" />
+                        <Bookmark className="size-4 fill-current" />
                       </Button>
                     </form>
                   </div>

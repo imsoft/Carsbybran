@@ -177,6 +177,8 @@ export async function updateArticle(
 
   revalidatePath("/dashboard/articles");
   revalidatePath(`/dashboard/articles/${id}`);
+  revalidatePath(`/es-MX/reviews/${result.data.slug}`);
+  revalidatePath(`/en-US/reviews/${result.data.slug}`);
 
   return { success: true, message: "Artículo actualizado.", articleId: id };
 }

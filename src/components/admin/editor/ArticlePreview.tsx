@@ -1,7 +1,7 @@
 import type { Article, ArticleRatings } from "@/lib/definitions";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { cn, formatPriceMx } from "@/lib/utils";
 import { ThumbsUp, ThumbsDown, PlayCircle } from "lucide-react";
 
 type Props = { article: Article; lang?: "es" | "en" };
@@ -225,10 +225,10 @@ function VersionsBlock({ versions, lang }: { versions: NonNullable<Article["vers
               <tr key={i} className="hover:bg-muted/20 transition-colors">
                 <td className="px-4 py-3 font-semibold">{v.name}</td>
                 <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400 font-medium">
-                  {v.priceMin ? `$${v.priceMin}` : "—"}
+                  {v.priceMin ? `$${formatPriceMx(v.priceMin)}` : "—"}
                 </td>
                 <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400 font-medium">
-                  {v.priceMax ? `$${v.priceMax}` : "—"}
+                  {v.priceMax ? `$${formatPriceMx(v.priceMax)}` : "—"}
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">{v.highlights}</td>
               </tr>
