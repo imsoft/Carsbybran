@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Bold, Italic, Heading2, Link2, Image, List } from "lucide-react";
@@ -10,10 +10,13 @@ import { cn } from "@/lib/utils";
 type Props = {
   name: string;
   defaultValue?: string;
+  /** Modo controlado: el padre pone el texto (p. ej. traducción automática) */
+  value?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
   label?: string;
   rows?: number;
-  /** Para checklist SEO / seguimiento del cuerpo sin controlar el estado interno */
+  /** En modo no controlado: notifica cambios (p. ej. checklist SEO) */
   onValueChange?: (value: string) => void;
 };
 
@@ -29,18 +32,24 @@ const TOOLBAR = [
 export function MarkdownEditor({
   name,
   defaultValue = "",
+  value: controlledValue,
+  onChange: controlledOnChange,
   placeholder,
   rows = 18,
   onValueChange,
 }: Props) {
-  const [value, setValue] = useState(defaultValue);
+  const [internal, setInternal] = useState(defaultValue);
+  const controlled = controlledValue !== undefined;
+  const value = controlled ? controlledValue : internal;
 
-  useEffect(() => {
-    onValueChange?.(value);
-  }, [value, onValueChange]);
+  function setValue(next: string) {
+    if (controlled) controlledOnChange?.(next);
+    else setInternal(next);
+    onValueChange?.(next);
+  }
 
   function insertSyntax(syntax: string) {
-    setValue((v) => v + syntax);
+    setValue(value + syntax);
   }
 
   const preview = renderMarkdownPreview(value);

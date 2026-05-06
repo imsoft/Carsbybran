@@ -18,8 +18,10 @@ import { GalleryUploader } from "./GalleryUploader";
 import { VideoForm } from "./VideoForm";
 import { SeoAioChecklist } from "./SeoAioChecklist";
 import type { Article, ArticleFormState } from "@/lib/definitions";
-import { Save, Eye, CloudOff, Cloud } from "lucide-react";
+import { translateEnToEs, translateEsToEn } from "@/app/actions/translate";
+import { Save, Eye, CloudOff, Cloud, Languages } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type Props = {
   article?: Article;
@@ -49,9 +51,13 @@ export function ArticleEditor({ article, action }: Props) {
   const [titleEs, setTitleEs] = useState(article?.titleEs ?? "");
   const [excerptEs, setExcerptEs] = useState(article?.excerptEs ?? "");
   const [contentEsDraft, setContentEsDraft] = useState(article?.contentEs ?? "");
+  const [titleEn, setTitleEn] = useState(article?.titleEn ?? "");
+  const [excerptEn, setExcerptEn] = useState(article?.excerptEn ?? "");
+  const [contentEnDraft, setContentEnDraft] = useState(article?.contentEn ?? "");
   const [slug, setSlug] = useState(article?.slug ?? "");
   const [slugManual, setSlugManual] = useState(!!article?.slug);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "unsaved">("idle");
+  const [translating, setTranslating] = useState<"idle" | "to-en" | "to-es">("idle");
 
   useEffect(() => {
     if (!slugManual) setSlug(toSlug(titleEs));
@@ -73,7 +79,63 @@ export function ArticleEditor({ article, action }: Props) {
     return () => clearInterval(id);
   }, [saveToStorage]);
 
-  useEffect(() => { setSaveStatus("unsaved"); }, [titleEs, excerptEs, contentEsDraft, slug]);
+  useEffect(() => {
+    setSaveStatus("unsaved");
+  }, [
+    titleEs,
+    excerptEs,
+    contentEsDraft,
+    titleEn,
+    excerptEn,
+    contentEnDraft,
+    slug,
+  ]);
+
+  async function handleTranslateToEn() {
+    setTranslating("to-en");
+    try {
+      const r = await translateEsToEn({
+        titleEs,
+        excerptEs,
+        contentEs: contentEsDraft,
+      });
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setTitleEn(r.titleEn);
+      setExcerptEn(r.excerptEn);
+      setContentEnDraft(r.contentEn);
+      toast.success("Campos EN actualizados con Google Translate. Revísalos antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
+
+  async function handleTranslateToEs() {
+    setTranslating("to-es");
+    try {
+      const r = await translateEnToEs({
+        titleEn,
+        excerptEn,
+        contentEn: contentEnDraft,
+      });
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setTitleEs(r.titleEs);
+      setExcerptEs(r.excerptEs);
+      setContentEsDraft(r.contentEs);
+      toast.success("Campos ES actualizados con Google Translate. Revísalos antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
 
   return (
     <form ref={formRef} action={formAction} className="flex flex-col gap-6">
@@ -105,6 +167,19 @@ export function ArticleEditor({ article, action }: Props) {
 
         {/* ── Contenido ES ── */}
         <TabsContent value="content-es" className="space-y-4 mt-4">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateToEs}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
+            </Button>
+          </div>
           <div className="space-y-1.5">
             <Label htmlFor="titleEs">Título</Label>
             <Input
@@ -132,8 +207,9 @@ export function ArticleEditor({ article, action }: Props) {
             <MarkdownEditor
               name="contentEs"
               defaultValue={article?.contentEs}
+              value={contentEsDraft}
+              onChange={setContentEsDraft}
               placeholder="## Introducción\n\nEscribe el contenido en español..."
-              onValueChange={setContentEsDraft}
             />
             {state.errors?.contentEs && <p className="text-xs text-destructive">{state.errors.contentEs[0]}</p>}
           </div>
@@ -141,22 +217,51 @@ export function ArticleEditor({ article, action }: Props) {
 
         {/* ── Content EN ── */}
         <TabsContent value="content-en" className="space-y-4 mt-4">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateToEn}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
+            </Button>
+          </div>
           <div className="space-y-1.5">
             <Label htmlFor="titleEn">Title</Label>
-            <Input id="titleEn" name="titleEn"
+            <Input
+              id="titleEn"
+              name="titleEn"
               placeholder="2025 Toyota GR86: The Purity of Driving Pleasure"
-              defaultValue={article?.titleEn} />
+              value={titleEn}
+              onChange={(e) => setTitleEn(e.target.value)}
+            />
             {state.errors?.titleEn && <p className="text-xs text-destructive">{state.errors.titleEn[0]}</p>}
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="excerptEn">Excerpt — max 300 chars</Label>
-            <Textarea id="excerptEn" name="excerptEn" rows={2} maxLength={300}
-              placeholder="Brief description..." defaultValue={article?.excerptEn} />
+            <Textarea
+              id="excerptEn"
+              name="excerptEn"
+              rows={2}
+              maxLength={300}
+              placeholder="Brief description..."
+              value={excerptEn}
+              onChange={(e) => setExcerptEn(e.target.value)}
+            />
           </div>
           <div className="space-y-1.5">
             <Label>Content — Markdown</Label>
-            <MarkdownEditor name="contentEn" defaultValue={article?.contentEn}
-              placeholder="## Introduction\n\nWrite the content in English..." />
+            <MarkdownEditor
+              name="contentEn"
+              defaultValue={article?.contentEn}
+              value={contentEnDraft}
+              onChange={setContentEnDraft}
+              placeholder="## Introduction\n\nWrite the content in English..."
+            />
             {state.errors?.contentEn && <p className="text-xs text-destructive">{state.errors.contentEn[0]}</p>}
           </div>
         </TabsContent>

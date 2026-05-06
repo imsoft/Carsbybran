@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AppSidebar } from "@/components/admin/AppSidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
               {children}
             </div>
+            <Toaster />
           </div>
         </ThemeProvider>
       </body>
