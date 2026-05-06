@@ -31,7 +31,14 @@ import {
   translateVersionsEnToEs,
   translateVersionsEsToEn,
 } from "@/app/actions/translate";
-import { Save, Eye, CloudOff, Cloud, Languages } from "lucide-react";
+import {
+  Save,
+  Eye,
+  CloudOff,
+  Cloud,
+  Languages,
+  FilePenLine,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -56,6 +63,55 @@ const defaultProsCons = (): ArticleProsCons => ({
   pros: [{ text: "" }],
   cons: [{ text: "" }],
 });
+
+function EditorActionBar({
+  saveStatus,
+  onSaveDraft,
+  pending,
+  article,
+}: {
+  saveStatus: "idle" | "saved" | "unsaved";
+  onSaveDraft: () => void;
+  pending: boolean;
+  article?: Article;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-h-8 items-center text-xs text-muted-foreground">
+        {saveStatus === "saved" && (
+          <span className="flex items-center gap-1.5">
+            <Cloud className="size-3.5 shrink-0" aria-hidden />
+            Guardado localmente
+          </span>
+        )}
+        {saveStatus === "unsaved" && (
+          <span className="flex items-center gap-1.5">
+            <CloudOff className="size-3.5 shrink-0" aria-hidden />
+            Sin guardar
+          </span>
+        )}
+      </div>
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={onSaveDraft}>
+          <FilePenLine className="size-3.5" aria-hidden />
+          Guardar borrador
+        </Button>
+        {article && (
+          <Button asChild variant="outline" size="sm" className="gap-1.5">
+            <Link href={`/preview/${article.id}`} target="_blank" rel="noopener noreferrer">
+              <Eye className="size-3.5" aria-hidden />
+              Preview
+            </Link>
+          </Button>
+        )}
+        <Button type="submit" size="sm" className="gap-1.5" disabled={pending}>
+          <Save className="size-3.5" aria-hidden />
+          {pending ? "Guardando…" : "Publicar"}
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 function toSlug(text: string): string {
   return text
@@ -274,6 +330,13 @@ export function ArticleEditor({ article, action }: Props) {
           {state.message}
         </p>
       )}
+
+      <EditorActionBar
+        saveStatus={saveStatus}
+        onSaveDraft={saveToStorage}
+        pending={pending}
+        article={article}
+      />
 
       <SeoAioChecklist
         titleEs={titleEs}
@@ -552,33 +615,6 @@ export function ArticleEditor({ article, action }: Props) {
             </SelectContent>
           </Select>
         </div>
-
-        <div className="flex items-center gap-2 ml-auto">
-          {saveStatus === "saved" && (
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Cloud className="size-3" />Guardado localmente
-            </span>
-          )}
-          {saveStatus === "unsaved" && (
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <CloudOff className="size-3" />Sin guardar
-            </span>
-          )}
-          <Button type="button" variant="outline" size="sm" onClick={saveToStorage}>
-            Guardar borrador
-          </Button>
-          {article && (
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/preview/${article.id}`} target="_blank">
-                <Eye className="size-3.5 mr-1" />Preview
-              </Link>
-            </Button>
-          )}
-          <Button type="submit" size="sm" disabled={pending}>
-            <Save className="size-3.5 mr-1" />
-            {pending ? "Guardando…" : "Publicar"}
-          </Button>
-        </div>
       </div>
 
       <div className="space-y-1.5">
@@ -599,6 +635,13 @@ export function ArticleEditor({ article, action }: Props) {
           defaultPreview={article?.coverImage || undefined}
         />
       </div>
+
+      <EditorActionBar
+        saveStatus={saveStatus}
+        onSaveDraft={saveToStorage}
+        pending={pending}
+        article={article}
+      />
     </form>
   );
 }
