@@ -6,6 +6,7 @@ import { Calendar, Clock, Tag, PlayCircle, ThumbsUp, ThumbsDown } from "lucide-r
 import { getDictionary, hasLocale } from "../../dictionaries";
 import { getArticleBySlug, getRelatedArticles } from "@/lib/mock-articles";
 import { pageAlternates, ogImages, BASE_URL, SITE_NAME, TWITTER_HANDLE, AUTHOR_NAME } from "@/lib/seo";
+import { buildArticlePageJsonLd } from "@/lib/article-jsonld";
 import { getSession } from "@/lib/session";
 import { isFavorite, getUserReviewForArticle } from "@/lib/mock-user-data";
 import { Navbar } from "@/components/layout/Navbar";
@@ -79,34 +80,12 @@ export default async function ArticlePage({ params }: Props) {
   ]);
   const existingReview = existingReviewRaw ?? null;
 
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: title,
-    description: excerpt,
-    image: article.coverImage ? [article.coverImage] : undefined,
-    datePublished: article.createdAt,
-    dateModified: article.updatedAt,
-    author: { "@type": "Person", name: AUTHOR_NAME, url: BASE_URL },
-    publisher: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
-    url: `${BASE_URL}/${lang}/reviews/${article.slug}`,
-    inLanguage: lang,
-  };
-
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `${BASE_URL}/${lang}` },
-      { "@type": "ListItem", position: 2, name: "Reviews", item: `${BASE_URL}/${lang}/reviews` },
-      { "@type": "ListItem", position: 3, name: title, item: `${BASE_URL}/${lang}/reviews/${article.slug}` },
-    ],
-  };
+  const jsonLd = buildArticlePageJsonLd({ article, lang, title, excerpt });
+  const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml }} />
       <Navbar lang={lang} dict={dict.nav} />
 
       <main className="flex-1">

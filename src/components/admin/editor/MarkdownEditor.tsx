@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Bold, Italic, Heading2, Link2, Image, List } from "lucide-react";
@@ -13,6 +13,8 @@ type Props = {
   placeholder?: string;
   label?: string;
   rows?: number;
+  /** Para checklist SEO / seguimiento del cuerpo sin controlar el estado interno */
+  onValueChange?: (value: string) => void;
 };
 
 const TOOLBAR = [
@@ -24,8 +26,18 @@ const TOOLBAR = [
   { icon: List, syntax: "\n- elemento\n", label: "Lista" },
 ];
 
-export function MarkdownEditor({ name, defaultValue = "", placeholder, rows = 18 }: Props) {
+export function MarkdownEditor({
+  name,
+  defaultValue = "",
+  placeholder,
+  rows = 18,
+  onValueChange,
+}: Props) {
   const [value, setValue] = useState(defaultValue);
+
+  useEffect(() => {
+    onValueChange?.(value);
+  }, [value, onValueChange]);
 
   function insertSyntax(syntax: string) {
     setValue((v) => v + syntax);

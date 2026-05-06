@@ -6,6 +6,9 @@ import { Analytics } from "@vercel/analytics/next";
 
 const BASE_URL = "https://carsbybran.com";
 
+/** Meta tag de verificación Google Search Console — opcional en producción */
+const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -66,6 +69,9 @@ export const metadata: Metadata = {
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
+  ...(GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 const websiteJsonLd = {

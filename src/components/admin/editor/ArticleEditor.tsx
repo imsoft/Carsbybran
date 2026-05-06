@@ -16,6 +16,7 @@ import { RatingsForm } from "./RatingsForm";
 import { ProsConsForm } from "./ProsConsForm";
 import { GalleryUploader } from "./GalleryUploader";
 import { VideoForm } from "./VideoForm";
+import { SeoAioChecklist } from "./SeoAioChecklist";
 import type { Article, ArticleFormState } from "@/lib/definitions";
 import { Save, Eye, CloudOff, Cloud } from "lucide-react";
 import Link from "next/link";
@@ -46,6 +47,8 @@ export function ArticleEditor({ article, action }: Props) {
   const storageKey = article ? `cbb_draft_${article.id}` : "cbb_draft_new";
   const formRef = useRef<HTMLFormElement>(null);
   const [titleEs, setTitleEs] = useState(article?.titleEs ?? "");
+  const [excerptEs, setExcerptEs] = useState(article?.excerptEs ?? "");
+  const [contentEsDraft, setContentEsDraft] = useState(article?.contentEs ?? "");
   const [slug, setSlug] = useState(article?.slug ?? "");
   const [slugManual, setSlugManual] = useState(!!article?.slug);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "unsaved">("idle");
@@ -70,7 +73,7 @@ export function ArticleEditor({ article, action }: Props) {
     return () => clearInterval(id);
   }, [saveToStorage]);
 
-  useEffect(() => { setSaveStatus("unsaved"); }, [titleEs, slug]);
+  useEffect(() => { setSaveStatus("unsaved"); }, [titleEs, excerptEs, contentEsDraft, slug]);
 
   return (
     <form ref={formRef} action={formAction} className="flex flex-col gap-6">
@@ -79,6 +82,13 @@ export function ArticleEditor({ article, action }: Props) {
           {state.message}
         </p>
       )}
+
+      <SeoAioChecklist
+        titleEs={titleEs}
+        excerptEs={excerptEs}
+        contentMd={contentEsDraft}
+        article={article}
+      />
 
       {/* ── Main editor tabs (first: contenido y bloques del artículo) ── */}
       <Tabs defaultValue="content-es" className="scroll-mt-4">
@@ -107,13 +117,24 @@ export function ArticleEditor({ article, action }: Props) {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="excerptEs">Resumen — máx. 300 chars</Label>
-            <Textarea id="excerptEs" name="excerptEs" rows={2} maxLength={300}
-              placeholder="Breve descripción..." defaultValue={article?.excerptEs} />
+            <Textarea
+              id="excerptEs"
+              name="excerptEs"
+              rows={2}
+              maxLength={300}
+              placeholder="Breve descripción..."
+              value={excerptEs}
+              onChange={(e) => setExcerptEs(e.target.value)}
+            />
           </div>
           <div className="space-y-1.5">
             <Label>Contenido — Markdown</Label>
-            <MarkdownEditor name="contentEs" defaultValue={article?.contentEs}
-              placeholder="## Introducción\n\nEscribe el contenido en español..." />
+            <MarkdownEditor
+              name="contentEs"
+              defaultValue={article?.contentEs}
+              placeholder="## Introducción\n\nEscribe el contenido en español..."
+              onValueChange={setContentEsDraft}
+            />
             {state.errors?.contentEs && <p className="text-xs text-destructive">{state.errors.contentEs[0]}</p>}
           </div>
         </TabsContent>
