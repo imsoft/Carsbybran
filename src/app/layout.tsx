@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { AdSenseScript } from "@/components/ads/AdSenseScript";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -126,6 +127,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <AdSenseScript />
         <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
         <SpeedInsights />

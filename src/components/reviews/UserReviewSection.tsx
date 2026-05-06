@@ -78,7 +78,7 @@ export function UserReviewSection({
   dict,
 }: Props) {
   const [isEditing, setIsEditing] = useState(!existingReview);
-  const [rating, setRating] = useState(existingReview?.rating ?? 7);
+  const [rating, setRating] = useState(existingReview?.rating ?? 10);
 
   const submitBound = submitReviewAction.bind(null, articleId, lang);
   const deleteBound = deleteReviewAction.bind(null, articleId, lang);

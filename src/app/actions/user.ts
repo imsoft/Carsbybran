@@ -36,7 +36,7 @@ export async function submitReviewAction(
   formData: FormData
 ) {
   const session = await verifySession();
-  const rating = Number(formData.get("rating") ?? 7);
+  const rating = Number(formData.get("rating") ?? 10);
   const comment = String(formData.get("comment") ?? "").trim();
   if (!comment || rating < 1 || rating > 10) return;
   await upsertUserReview(session.userId, articleId, rating, comment);
