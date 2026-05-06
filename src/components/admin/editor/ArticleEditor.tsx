@@ -17,8 +17,20 @@ import { ProsConsForm } from "./ProsConsForm";
 import { GalleryUploader } from "./GalleryUploader";
 import { VideoForm } from "./VideoForm";
 import { SeoAioChecklist } from "./SeoAioChecklist";
-import type { Article, ArticleFormState } from "@/lib/definitions";
-import { translateEnToEs, translateEsToEn } from "@/app/actions/translate";
+import type {
+  Article,
+  ArticleFormState,
+  ArticleProsCons,
+  ArticleVersion,
+} from "@/lib/definitions";
+import {
+  translateEnToEs,
+  translateEsToEn,
+  translateProsConsEnToEs,
+  translateProsConsEsToEn,
+  translateVersionsEnToEs,
+  translateVersionsEsToEn,
+} from "@/app/actions/translate";
 import { Save, Eye, CloudOff, Cloud, Languages } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -31,6 +43,18 @@ type Props = {
 const CATEGORIES = ["reviews", "comparisons", "news", "guides", "brands"];
 const AUTOSAVE_MS = 30_000;
 const initialState: ArticleFormState = {};
+
+const emptyVersion = (): ArticleVersion => ({
+  name: "",
+  priceMin: "",
+  priceMax: "",
+  highlights: "",
+});
+
+const defaultProsCons = (): ArticleProsCons => ({
+  pros: [{ text: "" }],
+  cons: [{ text: "" }],
+});
 
 function toSlug(text: string): string {
   return text
@@ -58,6 +82,12 @@ export function ArticleEditor({ article, action }: Props) {
   const [slugManual, setSlugManual] = useState(!!article?.slug);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "unsaved">("idle");
   const [translating, setTranslating] = useState<"idle" | "to-en" | "to-es">("idle");
+  const [versions, setVersions] = useState<ArticleVersion[]>(() =>
+    article?.versions?.length ? article.versions : [emptyVersion()]
+  );
+  const [prosCons, setProsCons] = useState<ArticleProsCons>(() =>
+    article?.prosCons ?? defaultProsCons()
+  );
 
   useEffect(() => {
     if (!slugManual) setSlug(toSlug(titleEs));
@@ -89,6 +119,8 @@ export function ArticleEditor({ article, action }: Props) {
     excerptEn,
     contentEnDraft,
     slug,
+    versions,
+    prosCons,
   ]);
 
   async function handleTranslateToEn() {
@@ -98,6 +130,8 @@ export function ArticleEditor({ article, action }: Props) {
         titleEs,
         excerptEs,
         contentEs: contentEsDraft,
+        versions,
+        prosCons,
       });
       if (!r.ok) {
         toast.error(r.error);
@@ -106,6 +140,8 @@ export function ArticleEditor({ article, action }: Props) {
       setTitleEn(r.titleEn);
       setExcerptEn(r.excerptEn);
       setContentEnDraft(r.contentEn);
+      if (r.versionsEn) setVersions(r.versionsEn);
+      if (r.prosConsEn) setProsCons(r.prosConsEn);
       toast.success("Campos EN actualizados con Google Translate. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
@@ -121,6 +157,8 @@ export function ArticleEditor({ article, action }: Props) {
         titleEn,
         excerptEn,
         contentEn: contentEnDraft,
+        versions,
+        prosCons,
       });
       if (!r.ok) {
         toast.error(r.error);
@@ -129,7 +167,77 @@ export function ArticleEditor({ article, action }: Props) {
       setTitleEs(r.titleEs);
       setExcerptEs(r.excerptEs);
       setContentEsDraft(r.contentEs);
+      if (r.versionsEs) setVersions(r.versionsEs);
+      if (r.prosConsEs) setProsCons(r.prosConsEs);
       toast.success("Campos ES actualizados con Google Translate. Revísalos antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
+
+  async function handleTranslateVersionsToEn() {
+    setTranslating("to-en");
+    try {
+      const r = await translateVersionsEsToEn(versions);
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setVersions(r.versions);
+      toast.success("Versiones traducidas al inglés. Revísalas antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
+
+  async function handleTranslateVersionsToEs() {
+    setTranslating("to-es");
+    try {
+      const r = await translateVersionsEnToEs(versions);
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setVersions(r.versions);
+      toast.success("Versiones traducidas al español. Revísalas antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
+
+  async function handleTranslateProsConsToEn() {
+    setTranslating("to-en");
+    try {
+      const r = await translateProsConsEsToEn(prosCons);
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setProsCons(r.prosCons);
+      toast.success("Pros/contras traducidos al inglés. Revísalos antes de publicar.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
+    } finally {
+      setTranslating("idle");
+    }
+  }
+
+  async function handleTranslateProsConsToEs() {
+    setTranslating("to-es");
+    try {
+      const r = await translateProsConsEnToEs(prosCons);
+      if (!r.ok) {
+        toast.error(r.error);
+        return;
+      }
+      setProsCons(r.prosCons);
+      toast.success("Pros/contras traducidos al español. Revísalos antes de publicar.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo traducir (sesión o red).");
     } finally {
@@ -272,8 +380,35 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Versiones & precios ── */}
-        <TabsContent value="versions" className="mt-4">
-          <VersionsForm defaultValue={article?.versions} />
+        <TabsContent value="versions" className="mt-4 space-y-4">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateVersionsToEn}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateVersionsToEs}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Traduce nombre y equipamiento de cada versión. Los precios no se modifican.
+          </p>
+          <VersionsForm value={versions} onChange={setVersions} />
         </TabsContent>
 
         {/* ── Calificaciones ── */}
@@ -282,8 +417,32 @@ export function ArticleEditor({ article, action }: Props) {
         </TabsContent>
 
         {/* ── Pros / Contras ── */}
-        <TabsContent value="proscons" className="mt-4">
-          <ProsConsForm defaultValue={article?.prosCons} />
+        <TabsContent value="proscons" className="mt-4 space-y-4">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateProsConsToEn}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-en" ? "Traduciendo…" : "Desde español (Google)"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              disabled={translating !== "idle"}
+              onClick={handleTranslateProsConsToEs}
+            >
+              <Languages className="size-3.5" />
+              {translating === "to-es" ? "Traduciendo…" : "Desde inglés (Google)"}
+            </Button>
+          </div>
+          <ProsConsForm value={prosCons} onChange={setProsCons} />
         </TabsContent>
 
         {/* ── Galería ── */}

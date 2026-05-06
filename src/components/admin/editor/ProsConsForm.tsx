@@ -1,38 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2, ThumbsUp, ThumbsDown } from "lucide-react";
-import type { ArticleProsCons, ProConItem } from "@/lib/definitions";
+import type { ArticleProsCons } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 
-type Props = { defaultValue?: ArticleProsCons };
-
-const defaultData: ArticleProsCons = {
-  pros: [{ text: "" }],
-  cons: [{ text: "" }],
+type Props = {
+  value: ArticleProsCons;
+  onChange: (data: ArticleProsCons) => void;
 };
 
-export function ProsConsForm({ defaultValue = defaultData }: Props) {
-  const [data, setData] = useState<ArticleProsCons>(defaultValue);
-
+export function ProsConsForm({ value: data, onChange }: Props) {
   function updateItem(type: "pros" | "cons", i: number, text: string) {
-    setData((prev) => ({
-      ...prev,
-      [type]: prev[type].map((item, idx) => (idx === i ? { text } : item)),
-    }));
+    onChange({
+      ...data,
+      [type]: data[type].map((item, idx) => (idx === i ? { text } : item)),
+    });
   }
 
   function addItem(type: "pros" | "cons") {
-    setData((prev) => ({ ...prev, [type]: [...prev[type], { text: "" }] }));
+    onChange({ ...data, [type]: [...data[type], { text: "" }] });
   }
 
   function removeItem(type: "pros" | "cons", i: number) {
-    setData((prev) => ({
-      ...prev,
-      [type]: prev[type].filter((_, idx) => idx !== i),
-    }));
+    onChange({
+      ...data,
+      [type]: data[type].filter((_, idx) => idx !== i),
+    });
   }
 
   return (

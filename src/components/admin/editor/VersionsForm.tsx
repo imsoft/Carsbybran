@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import type { ArticleVersion } from "@/lib/definitions";
 
-type Props = { defaultValue?: ArticleVersion[] };
+type Props = {
+  value: ArticleVersion[];
+  onChange: (versions: ArticleVersion[]) => void;
+};
 
 const empty = (): ArticleVersion => ({
   name: "",
@@ -16,23 +18,19 @@ const empty = (): ArticleVersion => ({
   highlights: "",
 });
 
-export function VersionsForm({ defaultValue = [] }: Props) {
-  const [versions, setVersions] = useState<ArticleVersion[]>(
-    defaultValue.length ? defaultValue : [empty()]
-  );
-
+export function VersionsForm({ value: versions, onChange }: Props) {
   function update(i: number, field: keyof ArticleVersion, value: string) {
-    setVersions((prev) =>
-      prev.map((v, idx) => (idx === i ? { ...v, [field]: value } : v))
+    onChange(
+      versions.map((v, idx) => (idx === i ? { ...v, [field]: value } : v))
     );
   }
 
   function add() {
-    setVersions((prev) => [...prev, empty()]);
+    onChange([...versions, empty()]);
   }
 
   function remove(i: number) {
-    setVersions((prev) => prev.filter((_, idx) => idx !== i));
+    onChange(versions.filter((_, idx) => idx !== i));
   }
 
   return (
