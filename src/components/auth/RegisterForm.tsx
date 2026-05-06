@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 import { register } from "@/app/actions/auth";
 import type { RegisterFormState } from "@/lib/definitions";
+import { joinFormErrorMessages } from "@/lib/form-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,27 +26,28 @@ export function RegisterForm({ dict }: { dict: Dict }) {
   const [state, action, pending] = useActionState(register, initialState);
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    const desc = joinFormErrorMessages(state.errors);
+    if (desc) {
+      toast.error("Revisa el formulario", {
+        id: "register-form-validation",
+        description: desc,
+      });
+    }
+  }, [state.errors]);
+
   return (
     <Card>
       <CardContent className="pt-6">
         <form action={action} className="space-y-4">
-          {state.message && (
-            <p className="text-sm text-center text-muted-foreground">{state.message}</p>
-          )}
-
           <div className="space-y-1.5">
             <Label htmlFor="name">{dict.nameLabel}</Label>
             <Input
               id="name"
               name="name"
               autoComplete="name"
-              aria-describedby="name-error"
+              aria-invalid={!!state.errors?.name}
             />
-            {state.errors?.name && (
-              <p id="name-error" className="text-xs text-destructive">
-                {state.errors.name[0]}
-              </p>
-            )}
           </div>
 
           <div className="space-y-1.5">
@@ -54,13 +57,8 @@ export function RegisterForm({ dict }: { dict: Dict }) {
               name="email"
               type="email"
               autoComplete="email"
-              aria-describedby="reg-email-error"
+              aria-invalid={!!state.errors?.email}
             />
-            {state.errors?.email && (
-              <p id="reg-email-error" className="text-xs text-destructive">
-                {state.errors.email[0]}
-              </p>
-            )}
           </div>
 
           <div className="space-y-1.5">
@@ -71,7 +69,7 @@ export function RegisterForm({ dict }: { dict: Dict }) {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                aria-describedby="reg-password-error"
+                aria-invalid={!!(state.errors?.password?.length)}
                 className="pr-10"
               />
               <button
@@ -84,13 +82,6 @@ export function RegisterForm({ dict }: { dict: Dict }) {
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </button>
             </div>
-            {state.errors?.password && (
-              <ul id="reg-password-error" className="text-xs text-destructive space-y-0.5">
-                {state.errors.password.map((e) => (
-                  <li key={e}>· {e}</li>
-                ))}
-              </ul>
-            )}
           </div>
 
           <Button type="submit" className="w-full" disabled={pending}>

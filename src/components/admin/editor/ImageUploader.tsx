@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { UploadCloud, X, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,6 @@ type Props = {
 export function ImageUploader({ name, defaultPreview }: Props) {
   const [preview, setPreview] = useState<string | null>(defaultPreview || null);
   const [isDragging, setIsDragging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<File | null>(null);
   const blobUrlRef = useRef<string | null>(null);
@@ -27,14 +27,15 @@ export function ImageUploader({ name, defaultPreview }: Props) {
 
   function handleFile(file: File) {
     if (!file.type.startsWith("image/")) {
-      setError("Solo se aceptan imágenes (PNG, JPG, WEBP, GIF).");
+      toast.error("Solo se aceptan imágenes (PNG, JPG, WEBP, GIF).", {
+        id: "cover-image-type",
+      });
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setError("La imagen no puede superar 5 MB.");
+      toast.error("La imagen no puede superar 5 MB.", { id: "cover-image-size" });
       return;
     }
-    setError(null);
     fileRef.current = file;
     revokeBlob();
     const url = URL.createObjectURL(file);
@@ -134,7 +135,6 @@ export function ImageUploader({ name, defaultPreview }: Props) {
         </div>
       )}
 
-      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   );
 }

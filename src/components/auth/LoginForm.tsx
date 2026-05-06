@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 import { login } from "@/app/actions/auth";
 import type { LoginFormState } from "@/lib/definitions";
+import { joinFormErrorMessages } from "@/lib/form-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,14 +25,26 @@ export function LoginForm({ dict }: { dict: Dict }) {
   const [state, action, pending] = useActionState(login, initialState);
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    if (state.message) {
+      toast.error(state.message, { id: "login-form-message" });
+    }
+  }, [state.message]);
+
+  useEffect(() => {
+    const desc = joinFormErrorMessages(state.errors);
+    if (desc) {
+      toast.error("Revisa el formulario", {
+        id: "login-form-validation",
+        description: desc,
+      });
+    }
+  }, [state.errors]);
+
   return (
     <Card>
       <CardContent className="pt-6">
         <form action={action} className="space-y-4">
-          {state.message && (
-            <p className="text-sm text-destructive text-center">{state.message}</p>
-          )}
-
           <div className="space-y-1.5">
             <Label htmlFor="email">{dict.emailLabel}</Label>
             <Input
@@ -38,13 +52,8 @@ export function LoginForm({ dict }: { dict: Dict }) {
               name="email"
               type="email"
               autoComplete="email"
-              aria-describedby="email-error"
+              aria-invalid={!!state.errors?.email}
             />
-            {state.errors?.email && (
-              <p id="email-error" className="text-xs text-destructive">
-                {state.errors.email[0]}
-              </p>
-            )}
           </div>
 
           <div className="space-y-1.5">
@@ -55,7 +64,7 @@ export function LoginForm({ dict }: { dict: Dict }) {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
-                aria-describedby="password-error"
+                aria-invalid={!!state.errors?.password}
                 className="pr-10"
               />
               <button
@@ -68,11 +77,6 @@ export function LoginForm({ dict }: { dict: Dict }) {
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </button>
             </div>
-            {state.errors?.password && (
-              <p id="password-error" className="text-xs text-destructive">
-                {state.errors.password[0]}
-              </p>
-            )}
           </div>
 
           <Button type="submit" className="w-full" disabled={pending}>

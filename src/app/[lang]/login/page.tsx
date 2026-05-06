@@ -5,6 +5,7 @@ import { getDictionary, hasLocale } from "../dictionaries";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { GoogleButton } from "@/components/auth/GoogleButton";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
+import { AuthErrorToast } from "@/components/auth/AuthErrorToast";
 
 type Props = PageProps<"/[lang]/login"> & {
   searchParams: Promise<{ from?: string; error?: string }>;
@@ -34,9 +35,10 @@ export default async function LoginPage({ params, searchParams }: Props) {
         </div>
 
         {error && d.errors[error as keyof typeof d.errors] && (
-          <p className="rounded-md bg-destructive/10 px-4 py-2.5 text-center text-sm text-destructive">
-            {d.errors[error as keyof typeof d.errors]}
-          </p>
+          <AuthErrorToast
+            message={d.errors[error as keyof typeof d.errors]}
+            toastId={`login-url-${error}`}
+          />
         )}
 
         <div className="space-y-3">

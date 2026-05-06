@@ -1,7 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Send, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
+import { joinFormErrorMessages } from "@/lib/form-errors";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -23,11 +25,9 @@ interface ContactFormProps {
 
 function Field({
   label,
-  error,
   children,
 }: {
   label: string;
-  error?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -36,11 +36,6 @@ function Field({
         {label} <span className="text-accent" aria-hidden="true">*</span>
       </label>
       {children}
-      {error && (
-        <p className="text-xs text-destructive" role="alert">
-          {error}
-        </p>
-      )}
     </div>
   );
 }
@@ -56,6 +51,27 @@ export function ContactForm({ dict }: ContactFormProps) {
     initialState
   );
 
+  useEffect(() => {
+    if (state.status !== "success") return;
+    toast.success(dict.success, { id: "contact-success" });
+  }, [state.status, dict.success]);
+
+  useEffect(() => {
+    if (state.status !== "error") return;
+    const desc = joinFormErrorMessages(state.errors);
+    if (desc) {
+      toast.error("Revisa el formulario", {
+        id: "contact-validation",
+        description: desc,
+      });
+      return;
+    }
+    toast.error("No se pudo enviar el mensaje", {
+      id: "contact-server",
+      description: "Intenta de nuevo en unos minutos o escríbenos por redes sociales.",
+    });
+  }, [state.status, state.errors]);
+
   if (state.status === "success") {
     return (
       <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card px-8 py-12 text-center">
@@ -68,38 +84,42 @@ export function ContactForm({ dict }: ContactFormProps) {
   return (
     <form action={formAction} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label={dict.name} error={state.errors?.name}>
+        <Field label={dict.name}>
           <input
             type="text"
             name="name"
             required
+            aria-invalid={!!state.errors?.name}
             className={cn(inputClass, state.errors?.name && "border-destructive")}
           />
         </Field>
-        <Field label={dict.email} error={state.errors?.email}>
+        <Field label={dict.email}>
           <input
             type="email"
             name="email"
             required
+            aria-invalid={!!state.errors?.email}
             className={cn(inputClass, state.errors?.email && "border-destructive")}
           />
         </Field>
       </div>
 
-      <Field label={dict.subject} error={state.errors?.subject}>
+      <Field label={dict.subject}>
         <input
           type="text"
           name="subject"
           required
+          aria-invalid={!!state.errors?.subject}
           className={cn(inputClass, state.errors?.subject && "border-destructive")}
         />
       </Field>
 
-      <Field label={dict.message} error={state.errors?.message}>
+      <Field label={dict.message}>
         <textarea
           name="message"
           required
           rows={5}
+          aria-invalid={!!state.errors?.message}
           className={cn(inputClass, "resize-none", state.errors?.message && "border-destructive")}
         />
       </Field>

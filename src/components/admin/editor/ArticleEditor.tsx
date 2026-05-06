@@ -42,6 +42,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { joinFormErrorMessages } from "@/lib/form-errors";
 
 type Props = {
   article?: Article;
@@ -196,6 +197,29 @@ export function ArticleEditor({ article, action }: Props) {
     }
   }, [state.success, article?.id, router]);
 
+  useEffect(() => {
+    if (!state.success || !state.message) return;
+    toast.success("Artículo actualizado", {
+      id: "article-save-success",
+      description:
+        "Los cambios ya están guardados en el servidor. La vista en el sitio se actualizará al refrescar la caché.",
+    });
+  }, [state.success, state.message]);
+
+  useEffect(() => {
+    if (!state.message || state.success) return;
+    toast.error(state.message, { id: "article-save-error" });
+  }, [state.message, state.success]);
+
+  useEffect(() => {
+    const desc = joinFormErrorMessages(state.errors);
+    if (!desc) return;
+    toast.error("Revisa el formulario", {
+      id: "article-validation",
+      description: desc,
+    });
+  }, [state.errors]);
+
   async function handleTranslateToEn() {
     setTranslating("to-en");
     try {
@@ -325,12 +349,6 @@ export function ArticleEditor({ article, action }: Props) {
       encType="multipart/form-data"
       className="flex flex-col gap-6"
     >
-      {state.message && (
-        <p className={state.success ? "text-sm text-emerald-600" : "text-sm text-destructive"}>
-          {state.message}
-        </p>
-      )}
-
       <EditorActionBar
         saveStatus={saveStatus}
         onSaveDraft={saveToStorage}
@@ -381,7 +399,6 @@ export function ArticleEditor({ article, action }: Props) {
               value={titleEs}
               onChange={(e) => setTitleEs(e.target.value)}
             />
-            {state.errors?.titleEs && <p className="text-xs text-destructive">{state.errors.titleEs[0]}</p>}
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="excerptEs">Resumen — máx. 300 chars</Label>
@@ -404,7 +421,6 @@ export function ArticleEditor({ article, action }: Props) {
               onChange={setContentEsDraft}
               placeholder="## Introducción\n\nEscribe el contenido en español..."
             />
-            {state.errors?.contentEs && <p className="text-xs text-destructive">{state.errors.contentEs[0]}</p>}
           </div>
         </TabsContent>
 
@@ -432,7 +448,6 @@ export function ArticleEditor({ article, action }: Props) {
               value={titleEn}
               onChange={(e) => setTitleEn(e.target.value)}
             />
-            {state.errors?.titleEn && <p className="text-xs text-destructive">{state.errors.titleEn[0]}</p>}
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="excerptEn">Excerpt — max 300 chars</Label>
@@ -455,7 +470,6 @@ export function ArticleEditor({ article, action }: Props) {
               onChange={setContentEnDraft}
               placeholder="## Introduction\n\nWrite the content in English..."
             />
-            {state.errors?.contentEn && <p className="text-xs text-destructive">{state.errors.contentEn[0]}</p>}
           </div>
         </TabsContent>
 
@@ -590,7 +604,6 @@ export function ArticleEditor({ article, action }: Props) {
           {!slugManual && titleEs && (
             <p className="text-[11px] text-muted-foreground">Auto-generado desde el título ES</p>
           )}
-          {state.errors?.slug && <p className="text-xs text-destructive">{state.errors.slug[0]}</p>}
         </div>
 
         <div className="min-w-0 flex-1 basis-[min(100%,12rem)] space-y-1.5">

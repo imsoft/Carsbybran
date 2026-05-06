@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
@@ -128,7 +129,10 @@ export default function RootLayout({
       </head>
       <body>
         <AdSenseScript />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <Toaster position="bottom-right" richColors closeButton duration={5000} />
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>
