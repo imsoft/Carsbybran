@@ -129,11 +129,7 @@ export function SeoAioChecklist({ titleEs, excerptEs, contentMd, article }: Prop
             >
               Google Search Console
             </a>{" "}
-            para cobertura e indexación. Si ya verificaste el dominio por{" "}
-            <strong className="font-medium text-foreground">DNS</strong>, no hace falta ninguna
-            variable en el código. Solo necesitas{" "}
-            <code className="rounded bg-muted px-1">NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION</code> si
-            añades el método &quot;Etiqueta HTML&quot; como respaldo.
+            para cobertura e indexación.
           </p>
         </div>
       )}
