@@ -36,6 +36,12 @@ const fromR2Public = remotePatternFromEnvUrl(process.env.R2_PUBLIC_URL);
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    serverActions: {
+      // Portadas suelen pesar >1MB; subimos límite para multipart de editor.
+      bodySizeLimit: "6mb",
+    },
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 365,
