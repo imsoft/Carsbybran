@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
-import { AdSenseScript } from "@/components/ads/AdSenseScript";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -10,6 +9,7 @@ const BASE_URL = "https://carsbybran.com";
 
 /** Meta tag de verificación Google Search Console — opcional en producción */
 const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim();
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -111,6 +111,15 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <head>
+        {ADSENSE_CLIENT_ID && (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(
+              ADSENSE_CLIENT_ID
+            )}`}
+            crossOrigin="anonymous"
+          />
+        )}
         <script
           dangerouslySetInnerHTML={{
             __html: `try{const t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}`,
@@ -126,7 +135,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AdSenseScript />
         <ThemeProvider>
           {children}
           <Toaster position="bottom-right" richColors closeButton duration={5000} />
