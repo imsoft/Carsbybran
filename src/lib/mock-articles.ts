@@ -2,7 +2,7 @@ import "server-only";
 import type { Article, ArticleStatus } from "./definitions";
 import { db } from "./db";
 import { articles as articlesTable } from "./db/schema";
-import { eq, ne } from "drizzle-orm";
+import { eq, ne, sql } from "drizzle-orm";
 
 function toArticle(row: typeof articlesTable.$inferSelect): Article {
   return {
@@ -81,4 +81,12 @@ export async function getArticleStats() {
     drafts: all.filter((a) => a.status === "draft").length,
     totalViews: all.reduce((sum, a) => sum + a.views, 0),
   };
+}
+
+/** Incrementa vistas del artículo de forma atómica. */
+export async function incrementArticleViews(articleId: string): Promise<void> {
+  await db
+    .update(articlesTable)
+    .set({ views: sql`${articlesTable.views} + 1` })
+    .where(eq(articlesTable.id, articleId));
 }

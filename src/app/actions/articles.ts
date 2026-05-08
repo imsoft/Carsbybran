@@ -72,8 +72,18 @@ export async function createArticle(
 
   const id = `art_${Date.now()}`;
 
-  // Handle file upload before passing to schema (schema expects a string)
-  const coverImage = await resolveCoverImage(formData, undefined, id);
+  let coverImage: string | null = null;
+  try {
+    // Handle file upload before passing to schema (schema expects a string)
+    coverImage = await resolveCoverImage(formData, undefined, id);
+  } catch (e) {
+    return {
+      message:
+        e instanceof Error
+          ? `No se pudo subir la imagen de portada: ${e.message}`
+          : "No se pudo subir la imagen de portada. Revisa la configuración de R2_PUBLIC_URL.",
+    };
+  }
 
   // Remove the file entry so Zod only sees strings
   const raw: Record<string, unknown> = Object.fromEntries(
@@ -135,7 +145,17 @@ export async function updateArticle(
     .select({ coverImage: articles.coverImage })
     .from(articles)
     .where(eq(articles.id, id));
-  const coverImage = await resolveCoverImage(formData, existing[0]?.coverImage, id);
+  let coverImage: string | null = null;
+  try {
+    coverImage = await resolveCoverImage(formData, existing[0]?.coverImage, id);
+  } catch (e) {
+    return {
+      message:
+        e instanceof Error
+          ? `No se pudo subir la imagen de portada: ${e.message}`
+          : "No se pudo subir la imagen de portada. Revisa la configuración de R2_PUBLIC_URL.",
+    };
+  }
 
   const raw: Record<string, unknown> = Object.fromEntries(
     [...formData.entries()].filter(([k, v]) => k !== "coverImage" && !(v instanceof File))

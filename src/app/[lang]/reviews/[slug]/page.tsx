@@ -4,7 +4,11 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, Tag, PlayCircle, ThumbsUp, ThumbsDown } from "lucide-react";
 import { getDictionary, hasLocale } from "../../dictionaries";
-import { getArticleBySlug, getRelatedArticles } from "@/lib/mock-articles";
+import {
+  getArticleBySlug,
+  getRelatedArticles,
+  incrementArticleViews,
+} from "@/lib/mock-articles";
 import { pageAlternates, ogImages, BASE_URL, SITE_NAME, TWITTER_HANDLE, AUTHOR_NAME } from "@/lib/seo";
 import { buildArticlePageJsonLd } from "@/lib/article-jsonld";
 import { getSession } from "@/lib/session";
@@ -65,6 +69,8 @@ export default async function ArticlePage({ params }: Props) {
 
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
+
+  await incrementArticleViews(article.id);
 
   const dict = await getDictionary(lang);
   const session = await getSession();

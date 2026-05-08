@@ -100,13 +100,13 @@ export async function getUserStats(userId: string) {
       .from(favorites)
       .where(eq(favorites.userId, userId)),
     db
-      .select({ articleId: userReviews.articleId })
+      .select({ articleId: userReviews.articleId, comment: userReviews.comment })
       .from(userReviews)
       .where(eq(userReviews.userId, userId)),
   ]);
   return {
     favorites: favRows.length,
     reviews: reviewRows.length,
-    comments: 0,
+    comments: reviewRows.filter((r) => r.comment.trim().length > 0).length,
   };
 }
